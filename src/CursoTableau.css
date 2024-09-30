@@ -1,0 +1,88 @@
+.curso-tableau-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .curso-tableau-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+  
+  .logo {
+    height: 50px;
+  }
+  
+  .nav-bar {
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-button {
+    margin-right: 20px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  
+  .curso-tableau-main {
+    width: 80%;
+    margin-top: 30px;
+  }
+  
+  .curso-tableau-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .back-button {
+    font-size: 24px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .tableau-icon {
+    width: 100px;
+  }
+  
+  .modulos-list {
+    margin-top: 20px;
+  }
+  
+  .modulo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    background-color: #f0f0f0;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  
+  .modulo-number {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .modulo-info h3 {
+    margin: 0;
+  }
+  
+  .modulo-info p {
+    margin: 5px 0 0 0;
+  }
+  
