@@ -1,0 +1,103 @@
+.login-docente-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #eaf7f7;
+  }
+  
+  .login-docente-header {
+    width: 100%;
+    background-color: #d9edf3;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .logo {
+    height: 60px;
+  }
+  
+  .login-docente-main {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    max-width: 1200px;
+    margin-top: 20px;
+  }
+  
+  .login-docente-box {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 45%;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .login-form label {
+    margin-bottom: 8px;
+    color: #555;
+  }
+  
+  .login-form input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .login-button {
+    background-color: #00bfa6;
+    color: white;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 16px;
+  }
+  
+  .login-button:hover {
+    background-color: #00a38a;
+  }
+  
+  .login-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  .register-link,
+  .forgot-password-link {
+    color: #00bfa6;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .register-link:hover,
+  .forgot-password-link:hover {
+    text-decoration: underline;
+  }
+  
+  .login-docente-image {
+    width: 50%;
+  }
+  
+  .docente-image {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  

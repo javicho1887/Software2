@@ -1,0 +1,117 @@
+.mis-cursos-docente-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background-color: #eaf7f7;
+  }
+  
+  .mis-cursos-docente-header {
+    width: 100%;
+    background-color: #d9edf3;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    height: 60px;
+  }
+  
+  .nav-bar {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .nav-button {
+    padding: 10px 20px;
+    background-color: #00bfa6;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .nav-button:hover {
+    background-color: #00a38a;
+  }
+  
+  .mis-cursos-docente-main {
+    width: 80%;
+    max-width: 1200px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .buscar-curso-input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .cursos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .curso-card {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    color: black;
+  }
+  
+  .curso-card:hover {
+    background-color: #e0f7f4;
+  }
+  
+  .curso-icon {
+    height: 80px;
+    width: 80px;
+    margin-right: 20px;
+  }
+  
+  .curso-info {
+    flex-grow: 1;
+  }
+  
+  .curso-info h3 {
+    margin: 0;
+    color: #333;
+  }
+  
+  .curso-info p {
+    margin: 5px 0;
+    color: #555;
+  }
+  
+  .mis-cursos-docente-footer {
+    margin-top: 20px;
+  }
+  
+  .help-link {
+    text-decoration: none;
+    color: #00bfa6;
+  }
+  
+  .help-link:hover {
+    color: #008f72;
+  }
+  

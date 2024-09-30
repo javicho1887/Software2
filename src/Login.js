@@ -10,8 +10,9 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
+    // Validar el inicio de sesión del usuario
     if (username === 'user01' && password === '123') {
-      navigate('/explorar-cursos');
+      navigate('/explorar-cursos'); // Redirigir a la pantalla de usuario
     } else {
       alert('Usuario o contraseña incorrecta');
     }
@@ -49,6 +50,8 @@ function Login() {
           <div className="login-links">
             <Link to="/register" className="register-link">Regístrate ahora</Link>
             <Link to="/recuperar-contraseña" className="forgot-password-link">Olvidé mi contraseña</Link>
+            {/* Añadir enlace para los docentes */}
+            <Link to="/login-docente" className="docente-link">Soy Docente</Link>
           </div>
         </div>
         <div className="login-right">

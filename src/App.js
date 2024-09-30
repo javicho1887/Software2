@@ -14,6 +14,13 @@ import CursoJava from './CursoJava';
 import CursoPython from './CursoPython';
 import CursoFigma from './CursoFigma';
 import CursoTableau from './CursoTableau';
+import AnunciosCursoDocente from './AnunciosCursoDocente';
+import ContenidoCursoDocente from './ContenidoCursoDocente';
+import CalificacionesCursoDocente from './CalificacionesCursoDocente';
+import ZoomCursoDocente from './ZoomCursoDocente';
+import MensajesCursoDocente from './MensajesCursoDocente';
+import PaginaInicioDocente from './PaginaInicioDocente';
+import MisCursosDocente from './MisCursosDocente';
 import './App.css';
 
 function App() {
@@ -35,6 +42,14 @@ function App() {
           <Route path="/curso-python" element={<CursoPython />} />
           <Route path="/curso-figma" element={<CursoFigma />} /> 
           <Route path="/curso-tableau" element={<CursoTableau />} />
+          <Route path="/anuncios-curso-docente" element={<AnunciosCursoDocente />} />
+          <Route path="/contenido-curso-docente" element={<ContenidoCursoDocente />} />
+          <Route path="/calificaciones-curso-docente" element={<CalificacionesCursoDocente />} />
+          <Route path="/zoom-curso-docente" element={<ZoomCursoDocente />} />
+          <Route path="/mensajes-curso-docente" element={<MensajesCursoDocente />} />
+          <Route path="/login-docente" element={<PaginaInicioDocente />} />
+          <Route path="/mis-cursos-docente" element={<MisCursosDocente />} />
+
         </Routes>
       </div>
     </Router>

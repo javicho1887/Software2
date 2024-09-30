@@ -1,0 +1,98 @@
+.mensajes-docente-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #eaf7f7;
+  }
+  
+  .mensajes-docente-header {
+    width: 100%;
+    background-color: #d9edf3;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    height: 60px;
+  }
+  
+  .nav-bar {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .nav-button {
+    padding: 10px 20px;
+    background-color: #00bfa6;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .nav-button:hover {
+    background-color: #00a38a;
+  }
+  
+  .active {
+    background-color: #008f72;
+  }
+  
+  .mensajes-docente-main {
+    width: 80%;
+    max-width: 1200px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .mensajes-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .mensaje-card {
+    display: flex;
+    background-color: #f7f7f7;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .mensaje-avatar {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+  }
+  
+  .mensaje-info {
+    flex-grow: 1;
+    margin-left: 20px;
+  }
+  
+  .mensaje-info p {
+    margin: 0;
+    color: #777;
+  }
+  
+  .mensaje-fecha {
+    color: #777;
+    text-align: right;
+  }
+  

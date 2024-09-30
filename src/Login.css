@@ -15,6 +15,12 @@
     overflow: hidden;
     background-color: white;
   }
+  .docente-link {
+    color: #00bfff;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 10px;
+  }
   
   /* Sección izquierda (Formulario) */
   .login-left {
