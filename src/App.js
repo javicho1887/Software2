@@ -21,6 +21,7 @@ import ZoomCursoDocente from './ZoomCursoDocente';
 import MensajesCursoDocente from './MensajesCursoDocente';
 import PaginaInicioDocente from './PaginaInicioDocente';
 import MisCursosDocente from './MisCursosDocente';
+import Register from './Register'; 
 import './App.css';
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
           <Route path="/mensajes-curso-docente" element={<MensajesCursoDocente />} />
           <Route path="/login-docente" element={<PaginaInicioDocente />} />
           <Route path="/mis-cursos-docente" element={<MisCursosDocente />} />
+          <Route path="/register" element={<Register />} />
 
         </Routes>
       </div>

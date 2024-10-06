@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './HistorialCursos.css';
 
 function HistorialCursos() {
-  const cursos = [
-    { id: 1, nombre: 'Excel', fecha: '20/09/2024' },
-    { id: 2, nombre: 'PowerBi', fecha: '21/09/2024' },
-    { id: 3, nombre: 'JAVA', fecha: '22/09/2024' },
-    { id: 4, nombre: 'Figma', fecha: '23/09/2024' },
-  ];
+  const [cursos, setCursos] = useState([]);
+
+  // useEffect para hacer la solicitud a la API cuando el componente se cargue
+  useEffect(() => {
+    fetch('http://localhost:8000/api/cursos/')  // Asegúrate de que la URL sea correcta
+      .then((response) => response.json())
+      .then((data) => setCursos(data))
+      .catch((error) => console.error('Error al cargar los cursos:', error));
+  }, []);
+
 
   return (
     <div className="historial-cursos-container">
