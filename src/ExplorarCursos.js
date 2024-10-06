@@ -1,8 +1,17 @@
-import React from 'react';
 import './ExplorarCursos.css';
 import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 
 function ExplorarCursos() {
+  const [cursos, setCursos] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:8000/api/cursos/')  // URL de tu backend Django
+      .then(response => response.json())
+      .then(data => setCursos(data))
+      .catch(error => console.error('Error al cargar los cursos:', error));
+  }, []);
+
   return (
     <div className="courses-container">
       <header className="courses-header">
