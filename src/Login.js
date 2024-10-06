@@ -9,15 +9,30 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Validar el inicio de sesión del usuario
-    if (username === 'user01' && password === '123') {
-      navigate('/explorar-cursos'); // Redirigir a la pantalla de usuario
-    } else {
-      alert('Usuario o contraseña incorrecta');
-    }
+  
+    // Enviar los datos de login al backend
+    fetch('http://localhost:8000/api/login/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username: username, password: password }),  // El campo username es el correo
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Usuario o contraseña incorrectos');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Login exitoso:', data);
+        navigate('/explorar-cursos');  // Redirigir si el login es exitoso
+      })
+      .catch((error) => {
+        console.error('Error en el login:', error);
+        alert('Usuario o contraseña incorrectos');
+      });
   };
-
   return (
     <div className="login-container">
       <div className="login-box">
