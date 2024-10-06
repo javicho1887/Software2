@@ -10,13 +10,12 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
   
-    // Enviar los datos de login al backend
     fetch('http://localhost:8000/api/login/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username: username, password: password }),  // El campo username es el correo
+      body: JSON.stringify({ username: username, password: password }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -26,7 +25,8 @@ function Login() {
       })
       .then((data) => {
         console.log('Login exitoso:', data);
-        navigate('/explorar-cursos');  // Redirigir si el login es exitoso
+        localStorage.setItem('user_id', data.user_id);  
+        navigate('/mi-perfil');  
       })
       .catch((error) => {
         console.error('Error en el login:', error);

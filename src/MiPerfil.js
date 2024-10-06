@@ -28,7 +28,7 @@ function MiPerfil() {
             <li><Link to="/historial-cursos">Historial de cursos</Link></li>
             <li><Link to="/contactos">Contactos</Link></li>
             <li><Link to="/cambiar-contraseña">Cambiar contraseña</Link></li>  {}
-            <li><a href="#">Cerrar Sesión</a></li>
+            <li><a href="/">Cerrar Sesión</a></li>
           </ul>
         </aside>
 
