@@ -1,0 +1,98 @@
+.mensajes-admin-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f7fa;
+}
+
+.mensajes-admin-header {
+    width: 100%;
+    background-color: #e0eff5;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    height: 60px;
+}
+
+.nav-bar {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-button {
+    padding: 10px 20px;
+    background-color: #00bfa6;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.nav-button.active {
+    background-color: #008f72;
+}
+
+.mensajes-admin-main {
+    width: 80%;
+    max-width: 1200px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.mensajes-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mensaje-card {
+    display: flex;
+    align-items: center;
+    background-color: #f7f7f7;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.mensaje-avatar {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.mensaje-info {
+    flex-grow: 1;
+}
+
+.mensaje-info p {
+    margin: 0;
+}
+
+.mensaje-info span {
+    color: #777;
+}
+
+.mensaje-curso {
+    font-weight: bold;
+}
+
+.mensajes-admin-footer {
+    margin-top: 20px;
+}
+
+.help-link {
+    text-decoration: none;
+    color: #00bfa6;
+}
+
+.help-link:hover {
+    color: #008f72;
+}
