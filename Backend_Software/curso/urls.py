@@ -1,6 +1,8 @@
 from django.urls import path
 from .views import registro_usuario
 from .views import login_usuario
+from . import views
+
 
 urlpatterns = [
     path('registro/', registro_usuario, name='registro_usuario'),  # Solo mantienes el registro de usuario
