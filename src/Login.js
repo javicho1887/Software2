@@ -67,6 +67,7 @@ function Login() {
             <Link to="/recuperar-contraseña" className="forgot-password-link">Olvidé mi contraseña</Link>
             {/* Añadir enlace para los docentes */}
             <Link to="/login-docente" className="docente-link">Soy Docente</Link>
+            <Link to="/login-admin" className="admin-link">Soy Admin</Link> {/* Cambiar a la ruta de la página de inicio admin */}
           </div>
         </div>
         <div className="login-right">

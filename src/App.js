@@ -23,6 +23,25 @@ import PaginaInicioDocente from './PaginaInicioDocente';
 import MisCursosDocente from './MisCursosDocente';
 import Register from './Register'; 
 import './App.css';
+import MisCursosAdmin from './MisCursosAdmin';
+import MensajesAdmin from './MensajesAdmin';
+import ExplorarCursosAdmin from './ExplorarCursosAdmin';
+import MiPerfilAdmin from './MiPerfilAdmin';
+import ListaProfesores from './ListaProfesores';
+import ListaAlumnos from './ListaAlumnos';
+import CambiarContraseñaAdmin from './CambiarContraseñaAdmin';
+import EditarAdmin from './Editar';
+import CursoExcelAdmin from './CursoExcelAdmin';
+import CursoPowerBiAdmin from './CursoPowerBiAdmin';
+import CursoJavaAdmin from './CursoJavaAdmin';
+import CursoPythonAdmin from './CursoPythonAdmin';
+import CursoFigmaAdmin from './CursoFigmaAdmin';
+import CursoTableauAdmin from './CursoTableauAdmin';
+import EditarModulo from './EditarModulo';
+import AgregarModulo from './AgregarModulo';
+import AgregarCurso from './AgregarCurso';
+import PaginaInicioAdmin from './PaginaInicioAdmin';
+import RecuperarContraseñaAdmin from './RecuperarContraseñaAdmin';
 
 function App() {
   return (
@@ -51,6 +70,27 @@ function App() {
           <Route path="/login-docente" element={<PaginaInicioDocente />} />
           <Route path="/mis-cursos-docente" element={<MisCursosDocente />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/mis-cursos-admin" element={<MisCursosAdmin />} />
+          <Route path="/mensajes-admin" element={<MensajesAdmin />} />
+          <Route path="/explorar-cursos-admin" element={<ExplorarCursosAdmin />} />
+          <Route path="/mi-perfil-admin" element={<MiPerfilAdmin />} />
+          <Route path="/lista-profesores" element={<ListaProfesores />} />
+          <Route path="/lista-alumnos" element={<ListaAlumnos />} />
+          <Route path="/cambiar-contraseña-admin" element={<CambiarContraseñaAdmin />} />
+          <Route path="/editar-admin" element={<EditarAdmin />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/curso-excel-admin" element={<CursoExcelAdmin />} />
+          <Route path="/curso-powerbi-admin" element={<CursoPowerBiAdmin />} />
+          <Route path="/curso-java-admin" element={<CursoJavaAdmin />} />
+          <Route path="/curso-python-admin" element={<CursoPythonAdmin />} />
+          <Route path="/curso-figma-admin" element={<CursoFigmaAdmin />} />
+          <Route path="/curso-tableau-admin" element={<CursoTableauAdmin />} />
+          <Route path="/editar-modulo" element={<EditarModulo />} />
+          <Route path="/agregar-modulo" element={<AgregarModulo />} />
+          <Route path="/agregar-curso" element={<AgregarCurso />} />
+          <Route path="/login-admin" element={<PaginaInicioAdmin />} />
+          <Route path="/recuperar-contraseña-admin" element={<RecuperarContraseñaAdmin />} />
+
 
         </Routes>
       </div>
