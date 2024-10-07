@@ -10,13 +10,12 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
   
-    // Enviar los datos de login al backend
     fetch('http://localhost:8000/api/login/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username: username, password: password }),  // El campo username es el correo
+      body: JSON.stringify({ username: username, password: password }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -26,7 +25,8 @@ function Login() {
       })
       .then((data) => {
         console.log('Login exitoso:', data);
-        navigate('/explorar-cursos');  // Redirigir si el login es exitoso
+        localStorage.setItem('user_id', data.user_id);  // Guarda el user_id en localStorage
+        navigate('/mi-perfil');  
       })
       .catch((error) => {
         console.error('Error en el login:', error);
@@ -67,8 +67,6 @@ function Login() {
             <Link to="/recuperar-contraseña" className="forgot-password-link">Olvidé mi contraseña</Link>
             {/* Añadir enlace para los docentes */}
             <Link to="/login-docente" className="docente-link">Soy Docente</Link>
-            {/* Añadir enlace para los admin */}
-            <Link to="/login-admin" className="admin-link">Soy Admin</Link> {/* Cambiar a la ruta de la página de inicio admin */}
           </div>
         </div>
         <div className="login-right">

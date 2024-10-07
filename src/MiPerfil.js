@@ -1,8 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './MiPerfil.css';
+import axios from 'axios';
 
 function MiPerfil() {
+  const [perfil, setPerfil] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Cambia el ID del usuario de acuerdo a la autenticación o contexto actual
+    const userId = 1; // Placeholder: Obtén el ID real desde el contexto de la aplicación
+
+    axios.get(`http://localhost:8000/api/user-profile/${userId}/`)
+      .then(response => {
+        setPerfil(response.data);
+      })
+      .catch(error => {
+        setError('No se pudo obtener la información del perfil');
+        console.error(error);
+      });
+  }, []);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!perfil) {
+    return <div>Cargando perfil...</div>;
+  }
+
   return (
     <div className="mi-perfil-container">
       <header className="mi-perfil-header">
@@ -21,14 +47,14 @@ function MiPerfil() {
         <aside className="perfil-sidebar">
           <div className="perfil-avatar">
             <img src="/user-avatar.png" alt="User Avatar" className="perfil-avatar-img" />
-            <h2>Hola, User01!</h2>
+            <h2>Hola, {perfil.nombres}!</h2>
           </div>
           <ul className="perfil-menu">
             <li><Link to="/mi-perfil">Mi Perfil</Link></li>
             <li><Link to="/historial-cursos">Historial de cursos</Link></li>
             <li><Link to="/contactos">Contactos</Link></li>
-            <li><Link to="/cambiar-contraseña">Cambiar contraseña</Link></li>  {}
-            <li><a href="#">Cerrar Sesión</a></li>
+            <li><Link to="/cambiar-contraseña">Cambiar contraseña</Link></li>
+            <li><a href="/">Cerrar Sesión</a></li>
           </ul>
         </aside>
 
@@ -37,11 +63,11 @@ function MiPerfil() {
           <div className="perfil-details">
             <h2>Perfil</h2>
             <div className="perfil-info">
-              <p><strong>Nombre:</strong> User 01 <strong>Apellido:</strong> User 01</p>
-              <p><strong>Documento de Identificación:</strong> 88888888 <strong>Género:</strong> Binario</p>
-              <p><strong>Fecha de Nacimiento:</strong></p>
-              <p><strong>Email:</strong> user01@gmail.com</p>
-              <p><strong>Teléfono:</strong> 999999999</p>
+              <p><strong>Nombre:</strong> {perfil.nombres} <strong>Apellido:</strong> {perfil.apellidos}</p>
+              <p><strong>Documento de Identificación:</strong> {perfil.dni} <strong>Género:</strong> Binario</p>
+              <p><strong>Fecha de Nacimiento:</strong> {perfil.dia}/{perfil.mes}/{perfil.ano}</p>
+              <p><strong>Email:</strong> {perfil.correo}</p>
+              <p><strong>Teléfono:</strong> {perfil.telefono}</p>
             </div>
           </div>
         </section>
