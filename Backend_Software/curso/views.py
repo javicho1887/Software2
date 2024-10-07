@@ -6,12 +6,14 @@ from .models import Usuario
 from .serializers import UsuarioSerializer
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from .serializers import UsuarioRegistroSerializer
+
 
 
 @api_view(['POST'])
 def registro_usuario(request):
     if request.method == 'POST':
-        serializer = UsuarioSerializer(data=request.data)
+        serializer = UsuarioRegistroSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -38,3 +40,13 @@ def login_usuario(request):
     except Usuario.DoesNotExist:
         # El usuario con ese correo no existe
         return Response({'message': 'Usuario no encontrado'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['GET'])
+def user_profile(request, user_id):
+    try:
+        usuario = Usuario.objects.get(id=user_id)
+        serializer = UsuarioSerializer(usuario)
+        return Response(serializer.data)
+    except Usuario.DoesNotExist:
+        return Response({'error': 'Usuario no encontrado'}, status=404)
