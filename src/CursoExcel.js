@@ -51,6 +51,25 @@ function CursoExcel() {
             </div>
           </div>
         </section>
+
+        {/* Sección de Evaluaciones */}
+        <section className="evaluaciones">
+          <h2>Evaluaciones</h2>
+          <div className="evaluacion">
+            <div className="evaluacion-item">
+              <p className="evaluacion-text"><strong>PC1</strong> (no disponible)</p>
+            </div>
+            <div className="evaluacion-item">
+              <p className="evaluacion-text"><strong>PC2</strong> (no disponible)</p>
+            </div>
+            <div className="evaluacion-item">
+              <p className="evaluacion-text"><strong>PC3</strong> (no disponible)</p>
+            </div>
+            <div className="evaluacion-item">
+              <p className="evaluacion-text"><strong>Proyecto</strong> (no disponible)</p>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   );

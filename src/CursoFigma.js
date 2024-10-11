@@ -30,12 +30,43 @@ function CursoFigma() {
             </div>
           </div>
           <div className="modulo">
-            <span className="modulo-number">1</span>
+            <span className="modulo-number">2</span>
             <div className="modulo-info">
-              <h3>Introducción a Figma</h3>
+              <h3>Diseño de Interfaz</h3>
               <p>Módulo 2</p>
             </div>
           </div>
+        </section>
+
+        {/* Sección de Evaluaciones */}
+        <section className="evaluaciones">
+          <h2>Evaluaciones</h2>
+          <div className="evaluacion">
+            <div className="evaluacion-item">
+              <p className="evaluacion-text"><strong>PC1</strong> (no disponible)</p>
+            </div>
+            <div className="evaluacion-item">
+              <p className="evaluacion-text"><strong>PC2</strong> (no disponible)</p>
+            </div>
+            <div className="evaluacion-item">
+              <p className="evaluacion-text"><strong>PC3</strong> (no disponible)</p>
+            </div>
+            <div className="evaluacion-item">
+              <p className="evaluacion-text"><strong>Proyecto</strong> (no disponible)</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Nueva Sección de Calificaciones */}
+        <section className="calificaciones">
+          <h2>Calificaciones</h2>
+          <div className="calificacion-item">
+            <p className="calificacion-text">Tu calificación actual es: <strong>85</strong></p>
+          </div>
+          {/* Botón con el estilo de los botones de navegación */}
+          <button className="nav-button" onClick={() => alert("Redirigiendo a la página de calificaciones...")}>
+            Ir
+          </button>
         </section>
       </main>
     </div>

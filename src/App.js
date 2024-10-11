@@ -44,6 +44,10 @@ import PaginaInicioAdmin from './PaginaInicioAdmin';
 import RecuperarContraseñaAdmin from './RecuperarContraseñaAdmin';
 import RegistroDocente from './RegistroDocente';
 import RecuperarContraseña from './RecuperarContraseña';
+import CursoDetalle from "./CursoDetalle"; // Importar el nuevo componente
+import CalificacionesTableau from './CalificacionesTableau';
+
+
 
 function App() {
   return (
@@ -93,7 +97,8 @@ function App() {
           <Route path="/login-admin" element={<PaginaInicioAdmin />} />
           <Route path="/recuperar-contraseña" element={<RecuperarContraseña />} />
           <Route path="/recuperar-contraseña-admin" element={<RecuperarContraseñaAdmin />} />
-
+          <Route path="/curso-detalle/:cursoId" element={<CursoDetalle />} />
+          <Route path="/calificaciones-tableau" element={<CalificacionesTableau />} />
 
         </Routes>
       </div>

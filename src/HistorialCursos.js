@@ -1,18 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import './HistorialCursos.css';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "./HistorialCursos.css";
 
 function HistorialCursos() {
-  const [cursos, setCursos] = useState([]);
+  const [cursos, setCursos] = useState([
+    {
+      id: 1,
+      nombre: "Figma",
+      fecha: "05/10/2024",
+      estado: "Completado", // Estado agregado
+    },
+    {
+      id: 2,
+      nombre: "Python",
+      fecha: "05/10/2024",
+      estado: "En curso", // Estado agregado
+    },
+  ]);
 
   // useEffect para hacer la solicitud a la API cuando el componente se cargue
-  useEffect(() => {
-    fetch('http://localhost:8000/api/cursos/')  // Asegúrate de que la URL sea correcta
-      .then((response) => response.json())
-      .then((data) => setCursos(data))
-      .catch((error) => console.error('Error al cargar los cursos:', error));
-  }, []);
-
+  // useEffect(() => {
+  //   fetch('http://localhost:8000/api/cursos/')  // Asegúrate de que la URL sea correcta
+  //     .then((response) => response.json())
+  //     .then((data) => setCursos(data))
+  //     .catch((error) => console.error('Error al cargar los cursos:', error));
+  // }, []);
 
   return (
     <div className="historial-cursos-container">
@@ -22,22 +34,42 @@ function HistorialCursos() {
           <button className="nav-button">Explorar Cursos</button>
           <button className="nav-button">Mis Cursos</button>
           <button className="nav-button">Mensajes</button>
-          <img src="/user-avatar.png" alt="User Avatar" className="user-avatar" />
+          <img
+            src="/user-avatar.png"
+            alt="User Avatar"
+            className="user-avatar"
+          />
         </nav>
       </header>
 
       <main className="historial-cursos-main">
         <aside className="perfil-sidebar">
           <div className="perfil-avatar">
-            <img src="/user-avatar.png" alt="User Avatar" className="perfil-avatar-img" />
+            <img
+              src="/user-avatar.png"
+              alt="User Avatar"
+              className="perfil-avatar-img"
+            />
             <h2>Hola, User01!</h2>
           </div>
           <ul className="perfil-menu">
-            <li><a href="/mi-perfil">Mi Perfil</a></li>
-            <li><a href="/historial-cursos" className="active">Historial de cursos</a></li>
-            <li><a href="/contactos">Contactos</a></li>
-            <li><a href="/cambiar-contraseña">Cambiar contraseña</a></li>
-            <li><a href="#">Cerrar Sesión</a></li>
+            <li>
+              <a href="/mi-perfil">Mi Perfil</a>
+            </li>
+            <li>
+              <a href="/historial-cursos" className="active">
+                Historial de cursos
+              </a>
+            </li>
+            <li>
+              <a href="/contactos">Contactos</a>
+            </li>
+            <li>
+              <a href="/cambiar-contraseña">Cambiar contraseña</a>
+            </li>
+            <li>
+              <a href="#">Cerrar Sesión</a>
+            </li>
           </ul>
         </aside>
 
@@ -48,8 +80,15 @@ function HistorialCursos() {
             <div className="historial-lista">
               {cursos.map((curso) => (
                 <div key={curso.id} className="curso-card">
-                  <p><strong>Curso:</strong> {curso.nombre}</p>
-                  <p><strong>Adquirido:</strong> {curso.fecha}</p>
+                  <p>
+                    <strong>Curso:</strong> {curso.nombre}
+                  </p>
+                  <p>
+                    <strong>Adquirido:</strong> {curso.fecha}
+                  </p>
+                  <p>
+                    <strong>Estado:</strong> {curso.estado} {/* Muestra el estado aquí */}
+                  </p>
                 </div>
               ))}
             </div>

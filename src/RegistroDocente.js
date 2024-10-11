@@ -47,6 +47,11 @@ function RegistroDocente() {
               <input type="text" name="telefono" placeholder="Ingrese su teléfono" />
             </div>
 
+            <div className="input-group">
+              <label>Contraseña</label>
+              <input type="password" name="contraseña" placeholder="Ingrese su contraseña" />
+            </div>
+
             <button type="submit" className="register-button">Registrar</button>
 
             <div className="registro-links">

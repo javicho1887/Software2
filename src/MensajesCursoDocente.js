@@ -17,7 +17,7 @@ function MensajesCursoDocente() {
 
       <main className="mensajes-content">
         <div className="mensaje-item">
-          <img src="/avatar1.png" alt="Estudiante 1" className="mensaje-avatar" />
+          <img src="/user-avatar.png" alt="Estudiante 1" className="mensaje-avatar" />
           <div className="mensaje-text">
             <p>Hola profesor, buenas tardes, quisiera que revisara...</p>
             <span>Curso: Python | 10/09/2024</span>
@@ -25,7 +25,7 @@ function MensajesCursoDocente() {
         </div>
 
         <div className="mensaje-item">
-          <img src="/avatar2.png" alt="Estudiante 2" className="mensaje-avatar" />
+          <img src="/user-avatar.png" alt="Estudiante 2" className="mensaje-avatar" />
           <div className="mensaje-text">
             <p>Hola profesor, buenas tardes, quisiera que revisara...</p>
             <span>Curso: Figma | 10/09/2024</span>
@@ -33,7 +33,7 @@ function MensajesCursoDocente() {
         </div>
 
         <div className="mensaje-item">
-          <img src="/avatar3.png" alt="Estudiante 3" className="mensaje-avatar" />
+          <img src="/user-avatar.png" alt="Estudiante 3" className="mensaje-avatar" />
           <div className="mensaje-text">
             <p>Hola profesor, buenas tardes, quisiera que revisara...</p>
             <span>Curso: Figma2 | 10/09/2024</span>
@@ -41,7 +41,7 @@ function MensajesCursoDocente() {
         </div>
 
         <div className="mensaje-item">
-          <img src="/avatar4.png" alt="Estudiante 4" className="mensaje-avatar" />
+          <img src="/user-avatar.png" alt="Estudiante 4" className="mensaje-avatar" />
           <div className="mensaje-text">
             <p>Hola profesor, buenas tardes, quisiera que revisara...</p>
             <span>Curso: Java | 10/09/2024</span>
