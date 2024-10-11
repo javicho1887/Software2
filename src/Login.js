@@ -1,36 +1,36 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './Login.css';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "./Login.css";
 
 function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    fetch('http://localhost:8000/api/login/', {
-      method: 'POST',
+
+    fetch("http://localhost:8000/api/login/", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ username: username, password: password }),
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Usuario o contraseña incorrectos');
+          throw new Error("Usuario o contraseña incorrectos");
         }
         return response.json();
       })
       .then((data) => {
-        console.log('Login exitoso:', data);
-        localStorage.setItem('user_id', data.user_id);  // Guarda el user_id en localStorage
-        navigate('/mi-perfil');  
+        console.log("Login exitoso:", data);
+        localStorage.setItem("user_id", data.user_id); // Guarda el user_id en localStorage
+        navigate("/mi-perfil");
       })
       .catch((error) => {
-        console.error('Error en el login:', error);
-        alert('Usuario o contraseña incorrectos');
+        console.error("Error en el login:", error);
+        alert("Usuario o contraseña incorrectos");
       });
   };
   return (
@@ -39,39 +39,58 @@ function Login() {
         <div className="login-left">
           <img src="/logo.png" alt="NextLevel Logo" className="logo" />
           <h2>¿Listo para ver tu potencial?</h2>
+          <br />
           <form className="login-form" onSubmit={handleSubmit}>
-            <label htmlFor="username">Usuario:</label>
-            <input 
-              type="text" 
-              id="username" 
-              name="username" 
+            <label htmlFor="username">Usuario</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Usuario" 
+              placeholder="Usuario"
             />
-            
-            <label htmlFor="password">Contraseña:</label>
-            <input 
-              type="password" 
-              id="password" 
-              name="password" 
+
+            <label htmlFor="password">Contraseña</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Contraseña" 
+              placeholder="Contraseña"
             />
-            
-            <button type="submit" className="login-button">Login</button>
+
+            <button type="submit" className="login-button">
+              Login
+            </button>
           </form>
           <div className="login-links">
-            <Link to="/register" className="register-link">Regístrate ahora</Link>
-            <Link to="/recuperar-contraseña" className="forgot-password-link">Olvidé mi contraseña</Link>
-            {/* Añadir enlace para los docentes */}
-            <Link to="/login-docente" className="docente-link">Soy Docente</Link>
-            <Link to="/login-admin" className="admin-link">Soy Admin</Link> {/* Cambiar a la ruta de la página de inicio admin */}
+            <Link to="/register" className="register-link">
+              Regístrate ahora
+            </Link>
+            <Link to="/recuperar-contraseña" className="forgot-password-link">
+              Olvidé mi contraseña
+            </Link>
+            <br/>
+            <div>
+              {/* Añadir enlace para los docentes */}
+              <Link to="/login-docente" className="docente-link">
+                Soy Docente
+              </Link>
+              <Link to="/login-admin" className="admin-link">
+                Soy Admin
+              </Link>{" "}
+              {/* Cambiar a la ruta de la página de inicio admin */}
+            </div>
           </div>
         </div>
         <div className="login-right">
-          <img src="/climbing-image.jpg" alt="Climbing" className="login-image" />
+          <img
+            src="/climbing-image.jpg"
+            alt="Climbing"
+            className="login-image"
+          />
         </div>
       </div>
     </div>

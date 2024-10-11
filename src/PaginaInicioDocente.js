@@ -27,8 +27,9 @@ function PaginaInicioDocente() {
       <main className="login-docente-main">
         <div className="login-docente-box">
           <h2>Bienvenido Docente</h2>
+          <br/>
           <form className="login-form" onSubmit={handleSubmit}>
-            <label htmlFor="username">Usuario:</label>
+            <label htmlFor="username">Usuario</label>
             <input
               type="text"
               id="username"
@@ -38,7 +39,7 @@ function PaginaInicioDocente() {
               placeholder="Ingresa tu usuario"
             />
 
-            <label htmlFor="password">Contraseña:</label>
+            <label htmlFor="password">Contraseña</label>
             <input
               type="password"
               id="password"
@@ -52,7 +53,7 @@ function PaginaInicioDocente() {
 
             <div className="login-links">
               <Link to="/registro-docente" className="register-link">Regístrate ahora</Link>
-              <Link to="/recuperar-contraseña-docente" className="forgot-password-link">Olvidé mi contraseña</Link>
+              <Link to="/recuperar-contraseña" className="forgot-password-link">Olvidé mi contraseña</Link>
             </div>
           </form>
         </div>

@@ -42,6 +42,8 @@ import AgregarModulo from './AgregarModulo';
 import AgregarCurso from './AgregarCurso';
 import PaginaInicioAdmin from './PaginaInicioAdmin';
 import RecuperarContraseñaAdmin from './RecuperarContraseñaAdmin';
+import RegistroDocente from './RegistroDocente';
+import RecuperarContraseña from './RecuperarContraseña';
 
 function App() {
   return (
@@ -78,7 +80,7 @@ function App() {
           <Route path="/lista-alumnos" element={<ListaAlumnos />} />
           <Route path="/cambiar-contraseña-admin" element={<CambiarContraseñaAdmin />} />
           <Route path="/editar-admin" element={<EditarAdmin />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/registro-docente" element={<RegistroDocente />} />
           <Route path="/curso-excel-admin" element={<CursoExcelAdmin />} />
           <Route path="/curso-powerbi-admin" element={<CursoPowerBiAdmin />} />
           <Route path="/curso-java-admin" element={<CursoJavaAdmin />} />
@@ -89,6 +91,7 @@ function App() {
           <Route path="/agregar-modulo" element={<AgregarModulo />} />
           <Route path="/agregar-curso" element={<AgregarCurso />} />
           <Route path="/login-admin" element={<PaginaInicioAdmin />} />
+          <Route path="/recuperar-contraseña" element={<RecuperarContraseña />} />
           <Route path="/recuperar-contraseña-admin" element={<RecuperarContraseñaAdmin />} />
 
 

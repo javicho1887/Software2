@@ -50,7 +50,7 @@ function RegistroDocente() {
             <button type="submit" className="register-button">Registrar</button>
 
             <div className="registro-links">
-              <Link to="/iniciar-sesion-docente" className="login-link">Iniciar Sesión</Link>
+              <Link to="/login-docente" className="login-link">Iniciar Sesión</Link>
             </div>
           </form>
         </div>

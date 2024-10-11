@@ -26,8 +26,9 @@ function PaginaInicioAdmin() {
       <main className="login-docente-main">
         <div className="login-docente-box">
           <h2>Bienvenido Admin</h2>
+          <br/>
           <form className="login-form" onSubmit={handleSubmit}>
-            <label htmlFor="username">Usuario:</label>
+            <label htmlFor="username">Usuario</label>
             <input
               type="text"
               id="username"
@@ -37,7 +38,7 @@ function PaginaInicioAdmin() {
               placeholder="Ingresa tu usuario"
             />
 
-            <label htmlFor="password">Contraseña:</label>
+            <label htmlFor="password">Contraseña</label>
             <input
               type="password"
               id="password"
