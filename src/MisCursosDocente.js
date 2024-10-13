@@ -10,6 +10,9 @@ function MisCursosDocente() {
         <nav className="nav-bar">
           <Link to="/mis-cursos-docente" className="nav-button">Mis Cursos</Link>
           <Link to="/mensajes-curso-docente" className="nav-button">Mensajes</Link>
+          <Link to="/mi-perfil-docente">
+            <img src="/user-avatar.png" alt="User Avatar" className="user-avatar" />
+          </Link>
         </nav>
       </header>
 

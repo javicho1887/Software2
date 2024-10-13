@@ -9,7 +9,7 @@ function CalificacionesCursoDocente() {
         <img src="/logo.png" alt="NextLevel Logo" className="logo" />
         <nav className="nav-bar">
           <Link to="/mis-cursos-docente" className="nav-button">Mis Cursos</Link>
-          <Link to="/mensajes-docente" className="nav-button">Mensajes</Link>
+          <Link to="/mensajes-curso-docente" className="nav-button">Mensajes</Link>
         </nav>
       </header>
 
@@ -20,7 +20,7 @@ function CalificacionesCursoDocente() {
           <Link to="/contenido-curso-docente" className="menu-item">Contenido</Link>
           <Link to="/calificaciones-curso-docente" className="menu-item selected">Calificaciones</Link>
           <Link to="/zoom-curso-docente" className="menu-item">Zoom</Link>
-          <Link to="/mensajes-docente" className="menu-item">Mensajes</Link>
+          <Link to="/mensajes-curso-docente" className="menu-item">Mensajes</Link>
         </div>
 
         <div className="calificaciones-curso">

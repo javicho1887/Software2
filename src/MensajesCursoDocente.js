@@ -9,9 +9,11 @@ function MensajesCursoDocente() {
         <img src="/logo.png" alt="NextLevel Logo" className="logo" />
         <h2>Mensajes Curso Python - 745</h2>
         <nav className="nav-bar">
-          <Link to="/mis-cursos" className="nav-button">Mis Cursos</Link>
-          <Link to="/mensajes" className="nav-button">Mensajes</Link>
-          <img src="/user-avatar.png" alt="User Avatar" className="user-avatar" />
+          <Link to="/mis-cursos-docente" className="nav-button">Mis Cursos</Link>
+          <Link to="/mensajes-curso-docente" className="nav-button">Mensajes</Link>
+          <Link to="/mi-perfil-docente">
+            <img src="/user-avatar.png" alt="User Avatar" className="user-avatar" />
+          </Link>
         </nav>
       </header>
 

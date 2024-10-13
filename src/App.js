@@ -47,6 +47,9 @@ import RecuperarContraseña from './RecuperarContraseña';
 import CursoDetalle from "./CursoDetalle"; // Importar el nuevo componente
 import CalificacionesTableau from './CalificacionesTableau';
 import NuevaContraseña from './NuevaContraseña';
+import MiPerfilDocente from './MiPerfilDocente';
+import CambiarContraseñaDocente from './CambiarContraseñaDocente';
+import ContactosDocente from './ContactosDocente';
 
 
 
@@ -101,6 +104,12 @@ function App() {
           <Route path="/curso-detalle/:cursoId" element={<CursoDetalle />} />
           <Route path="/calificaciones-tableau" element={<CalificacionesTableau />} />
           <Route path="/nueva-contraseña" element={<NuevaContraseña />} />
+          <Route path="/mi-perfil-docente" element={<MiPerfilDocente />} />
+          <Route path="/cambiar-contraseña-docente" element={<CambiarContraseñaDocente />} />
+          <Route path="/contactos-docente" element={<ContactosDocente />} />
+
+
+
 
         </Routes>
       </div>

@@ -1,0 +1,100 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import "./MiPerfilDocente.css";
+
+function MiPerfilDocente() {
+  const perfil = {
+    nombres: "Docente01",
+    apellidos: "ApellidoDocente",
+    dni: "12345678",
+    dia: 15,
+    mes: 6,
+    ano: 1980,
+    correo: "docente01@ejemplo.com",
+    telefono: "999888777",
+  };
+
+  const calcularEdad = (dia, mes, ano) => {
+    const hoy = new Date();
+    let edad = hoy.getFullYear() - ano;
+    const mesActual = hoy.getMonth() + 1;
+    const diaActual = hoy.getDate();
+
+    if (mes > mesActual || (mes === mesActual && dia > diaActual)) {
+      edad--;
+    }
+    return edad;
+  };
+
+  return (
+    <div className="mi-perfil-docente-container">
+      <header className="mi-perfil-docente-header">
+        <img src="/logo.png" alt="NextLevel Logo" className="logo" />
+        <nav className="nav-bar">
+          <Link to="/mis-cursos-docente" className="nav-button">
+            Mis Cursos
+          </Link>
+          <Link to="/mensajes-curso-docente" className="nav-button">
+            Mensajes
+          </Link>
+          <Link to="/mi-perfil-docente">
+            <img src="/user-avatar.png" alt="User Avatar" className="user-avatar" />
+          </Link>
+        </nav>
+      </header>
+
+      <main className="mi-perfil-docente-main">
+        <aside className="perfil-sidebar">
+          <div className="perfil-avatar">
+            <img src="/user-avatar.png" alt="User Avatar" className="perfil-avatar-img" />
+            <h2>Hola, {perfil.nombres} !</h2>
+          </div>
+          <ul className="perfil-menu">
+            <li>
+              <Link to="/mi-perfil-docente">Mi Perfil</Link>
+            </li>
+    
+            <li>
+              <Link to="/contactos-docente">Contactos</Link>
+            </li>
+            <li>
+              <Link to="/cambiar-contraseña-docente">Cambiar contraseña</Link>
+            </li>
+            <li>
+              <a href="/">Cerrar Sesión</a>
+            </li>
+          </ul>
+        </aside>
+
+        <section className="perfil-content">
+          <h1>Mi Cuenta</h1>
+          <div className="perfil-details">
+            <h2>Perfil</h2>
+            <div className="perfil-info">
+              <p>
+                <strong>Nombre:</strong> {perfil.nombres} <strong>Apellido:</strong> {perfil.apellidos}
+              </p>
+              <p>
+                <strong>Documento de Identificación (DNI):</strong> {perfil.dni}
+              </p>
+              <p>
+                <strong>Edad:</strong> {calcularEdad(perfil.dia, perfil.mes, perfil.ano)} años
+              </p>
+              <p>
+                <strong>Fecha de Nacimiento:</strong> {perfil.dia}/{perfil.mes}/{perfil.ano}
+              </p>
+              <p>
+                <strong>Email:</strong> {perfil.correo}
+              </p>
+              <p>
+                <strong>Teléfono:</strong> {perfil.telefono}
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+export default MiPerfilDocente;

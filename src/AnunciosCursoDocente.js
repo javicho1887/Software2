@@ -9,7 +9,7 @@ function AnunciosCursoDocente() {
         <img src="/logo.png" alt="NextLevel Logo" className="logo" />
         <nav className="nav-bar">
           <Link to="/mis-cursos-docente" className="nav-button">Mis Cursos</Link>
-          <Link to="/mensajes-docente" className="nav-button">Mensajes</Link>
+          <Link to="/mensajes-curso-docente" className="nav-button">Mensajes</Link>
         </nav>
       </header>
 
