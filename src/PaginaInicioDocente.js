@@ -7,14 +7,38 @@ function PaginaInicioDocente() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();  // Para redireccionar entre rutas
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validar credenciales: usuario = docente, password = 123
-    if (username === 'docente' && password === '123') {
-      navigate('/mis-cursos-docente'); // Redirigir a la página de MisCursosDocente
-    } else {
-      alert('Usuario o contraseña incorrecta');
+    // Objeto con los datos del usuario
+    const data = {
+      username: username,
+      password: password,
+    };
+
+    // Enviar solicitud al backend para iniciar sesión
+    try {
+      const response = await fetch('/api/docentes/login/docente/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      // Verificar si la respuesta es exitosa
+      if (response.ok) {
+        // Redirigir a la página de MisCursosDocente
+        navigate('/mis-cursos-docente');
+      } else {
+        // Mostrar mensaje de error
+        alert(result.error || 'Usuario o contraseña incorrecta');
+      }
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error);
+      alert('Error al conectar con el servidor.');
     }
   };
 
@@ -27,7 +51,7 @@ function PaginaInicioDocente() {
       <main className="login-docente-main">
         <div className="login-docente-box">
           <h2>Bienvenido Docente</h2>
-          <br/>
+          <br />
           <form className="login-form" onSubmit={handleSubmit}>
             <label htmlFor="username">Usuario</label>
             <input

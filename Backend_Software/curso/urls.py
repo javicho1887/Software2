@@ -5,6 +5,9 @@ from . import views
 from .views import actualizar_contraseña
 from .views import validar_correo
 from .views import cambiar_contraseña
+from .views import registro_docente
+from .views import login_docente
+
 
 urlpatterns = [
     path('registro/', registro_usuario, name='registro_usuario'),  # Solo mantienes el registro de usuario
@@ -13,4 +16,10 @@ urlpatterns = [
     path('actualizar-contraseña/', actualizar_contraseña, name='actualizar_contraseña'),
     path('validar-correo/', validar_correo, name='validar_correo'),
     path('cambiar-contraseña/', cambiar_contraseña, name='cambiar_contraseña'),
+     # Rutas para Docente
+     path('docentes/registro/', registro_docente, name='registro_docente'),
+     path('login/docente/', login_docente, name='login_docente'),
+    
+    
 ]
+
