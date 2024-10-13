@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
@@ -6,6 +6,15 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  // Verifica si hay un mensaje de registro exitoso y lo muestra
+  useEffect(() => {
+    const registroExitoso = localStorage.getItem('registroExitoso');
+    if (registroExitoso) {
+      alert("Registro exitoso. Ahora puedes iniciar sesión.");
+      localStorage.removeItem('registroExitoso'); // Elimina el indicador de éxito para no volver a mostrarlo
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,13 +35,14 @@ function Login() {
       .then((data) => {
         console.log("Login exitoso:", data);
         localStorage.setItem("user_id", data.user_id); // Guarda el user_id en localStorage
-        navigate("/mi-perfil");
+        navigate("/mi-perfil"); // Redirige a la página del perfil del usuario después del login
       })
       .catch((error) => {
         console.error("Error en el login:", error);
         alert("Usuario o contraseña incorrectos");
       });
   };
+
   return (
     <div className="login-container">
       <div className="login-box">
@@ -74,14 +84,12 @@ function Login() {
             </Link>
             <br/>
             <div>
-              {/* Añadir enlace para los docentes */}
               <Link to="/login-docente" className="docente-link">
                 Soy Docente
               </Link>
               <Link to="/login-admin" className="admin-link">
                 Soy Admin
-              </Link>{" "}
-              {/* Cambiar a la ruta de la página de inicio admin */}
+              </Link>
             </div>
           </div>
         </div>

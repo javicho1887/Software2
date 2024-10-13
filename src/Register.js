@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import './Register.css';
 
 function Register() {
+  const navigate = useNavigate(); // Inicializa navigate
+
   const [formData, setFormData] = useState({
     nombres: '',
     apellidos: '',
@@ -11,7 +14,7 @@ function Register() {
     ano: '',
     correo: '',
     telefono: '',
-    contrasena: '',  // Asegúrate de que tienes un estado para la contraseña
+    contrasena: '',  
   });
 
   const handleChange = (e) => {
@@ -20,14 +23,18 @@ function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Enviar datos al backend Django
+
+    if (!formData.correo.endsWith('@aloe.ulima.edu.pe')) {
+        alert('El correo debe tener el dominio @aloe.ulima.edu.pe');
+        return;
+    }
+
     fetch('http://localhost:8000/api/registro/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(formData),  // Convierte los datos en JSON
+      body: JSON.stringify(formData),
     })
       .then((response) => {
         if (!response.ok) {
@@ -37,7 +44,8 @@ function Register() {
       })
       .then((data) => {
         console.log('Registro exitoso:', data);
-        // Aquí podrías redirigir al usuario o mostrar un mensaje de éxito
+        localStorage.setItem('registroExitoso', 'true');
+        navigate('/'); // Redirige a la página principal
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -71,7 +79,7 @@ function Register() {
           <div className="form-group">
             <label>DNI</label>
             <input 
-              type="text" 
+              type="number" // Cambia a type="number" para solo permitir números
               name="dni" 
               value={formData.dni} 
               onChange={handleChange} 
@@ -81,7 +89,7 @@ function Register() {
           <div className="form-group">
             <label>Fecha de Nacimiento:</label>
             <input 
-              type="text" 
+              type="number" 
               name="dia" 
               value={formData.dia} 
               onChange={handleChange} 
@@ -89,7 +97,7 @@ function Register() {
               className="small-input" 
             />
             <input 
-              type="text" 
+              type="number" 
               name="mes" 
               value={formData.mes} 
               onChange={handleChange} 
@@ -97,7 +105,7 @@ function Register() {
               className="small-input" 
             />
             <input 
-              type="text" 
+              type="number" 
               name="ano" 
               value={formData.ano} 
               onChange={handleChange} 
@@ -116,11 +124,11 @@ function Register() {
             />
           </div>
           <div className="form-group">
-            <label>Contraseña</label> {/* Cambia el campo a contraseña */}
+            <label>Contraseña</label>
             <input 
-              type="password"  // Cambia el tipo a password
+              type="password"
               name="contrasena" 
-              value={formData.contrasena}  // Asegúrate de que está usando formData.contrasena
+              value={formData.contrasena} 
               onChange={handleChange} 
               placeholder="Contraseña" 
             />
@@ -128,7 +136,7 @@ function Register() {
           <div className="form-group">
             <label>Teléfono</label>
             <input 
-              type="text" 
+              type="number" 
               name="telefono" 
               value={formData.telefono} 
               onChange={handleChange} 

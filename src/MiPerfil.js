@@ -5,36 +5,46 @@ import axios from "axios";
 
 function MiPerfil() {
   const [perfil, setPerfil] = useState({
-    nombres: "Jhon",
-    apellidos: "Doe",
-    dni: "12345678",
-    genero: "Binario",
-    dia: "15",
-    mes: "04",
-    ano: "1995",
-    correo: "jhon_doe@gmail.com",
-    telefono: "+51987654321",
+    nombres: "",
+    apellidos: "",
+    dni: "",
+    dia: "",
+    mes: "",
+    ano: "",
+    correo: "",
+    telefono: "",
   });
   const [error, setError] = useState(null);
 
+  const calcularEdad = (dia, mes, ano) => {
+    const hoy = new Date();
+    let edad = hoy.getFullYear() - ano;
+    const mesActual = hoy.getMonth() + 1;
+    const diaActual = hoy.getDate();
+
+    if (mes > mesActual || (mes === mesActual && dia > diaActual)) {
+      edad--;
+    }
+    return edad;
+  };
+
   useEffect(() => {
-    // Cambia el ID del usuario de acuerdo a la autenticación o contexto actual
-    const userId = 1; // Placeholder: Obtén el ID real desde el contexto de la aplicación
-
-    return;
-
-    axios
-      .get(`http://localhost:8000/api/user-profile/${userId}/`)
-      .then((response) => {
-        setPerfil(response.data);
-      })
-      .catch((error) => {
-        // setError("No se pudo obtener la información del perfil");
-      }, []);
-
-    console.error(error);
-  });
-
+    const userId = localStorage.getItem("user_id");
+  
+    if (userId) {
+      axios
+        .get(`http://localhost:8000/api/user-profile/${userId}/`)
+        .then((response) => {
+          setPerfil(response.data);
+          localStorage.setItem('user_name', `${response.data.nombres} ${response.data.apellidos}`); // Guarda el nombre completo
+        })
+        .catch((error) => {
+          setError("No se pudo obtener la información del perfil");
+        });
+    } else {
+      setError("No se encontró el ID de usuario.");
+    }
+  }, []);
   if (error) {
     return <div>{error}</div>;
   }
@@ -54,11 +64,7 @@ function MiPerfil() {
             Mensajes
           </Link>
           <Link to="/mi-perfil">
-            <img
-              src="/user-avatar.png"
-              alt="User Avatar"
-              className="user-avatar"
-            />
+            <img src="/user-avatar.png" alt="User Avatar" className="user-avatar" />
           </Link>
         </nav>
       </header>
@@ -66,12 +72,8 @@ function MiPerfil() {
       <main className="mi-perfil-main">
         <aside className="perfil-sidebar">
           <div className="perfil-avatar">
-            <img
-              src="/user-avatar.png"
-              alt="User Avatar"
-              className="perfil-avatar-img"
-            />
-            <h2>Hola, {perfil.nombres}!</h2>
+            <img src="/user-avatar.png" alt="User Avatar" className="perfil-avatar-img" />
+            <h2>Hola, {perfil.nombres}  {perfil.apellidos}!</h2>
           </div>
           <ul className="perfil-menu">
             <li>
@@ -98,16 +100,16 @@ function MiPerfil() {
             <h2>Perfil</h2>
             <div className="perfil-info">
               <p>
-                <strong>Nombre:</strong> {perfil.nombres}{" "}
-                <strong>Apellido:</strong> {perfil.apellidos}
+                <strong>Nombre:</strong> {perfil.nombres} <strong>Apellido:</strong> {perfil.apellidos}
               </p>
               <p>
-                <strong>Documento de Identificación:</strong> {perfil.dni}{" "}
-                <strong>Género:</strong> Binario
+                <strong>Documento de Identificación (DNI):</strong> {perfil.dni}
               </p>
               <p>
-                <strong>Fecha de Nacimiento:</strong> {perfil.dia}/{perfil.mes}/
-                {perfil.ano}
+                <strong>Edad:</strong> {perfil.dia && perfil.mes && perfil.ano ? calcularEdad(perfil.dia, perfil.mes, perfil.ano) : "No disponible"} años
+              </p>
+              <p>
+                <strong>Fecha de Nacimiento:</strong> {perfil.dia}/{perfil.mes}/{perfil.ano}
               </p>
               <p>
                 <strong>Email:</strong> {perfil.correo}
@@ -117,7 +119,6 @@ function MiPerfil() {
               </p>
             </div>
 
-            {/* Botón Actualizar Datos */}
             <button className="nav-button">Actualizar Datos</button>
           </div>
         </section>

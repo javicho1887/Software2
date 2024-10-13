@@ -7,6 +7,9 @@ from .serializers import UsuarioSerializer
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from .serializers import UsuarioRegistroSerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 
@@ -50,3 +53,63 @@ def user_profile(request, user_id):
         return Response(serializer.data)
     except Usuario.DoesNotExist:
         return Response({'error': 'Usuario no encontrado'}, status=404)
+
+@api_view(['POST'])
+def actualizar_contraseña(request):
+    email = request.data.get('email')
+    new_password = request.data.get('newPassword')
+
+    try:
+        usuario = Usuario.objects.get(correo=email)
+        usuario.contrasena = new_password  # Almacena la contraseña nueva en texto plano
+        usuario.save()
+        return Response({'message': 'Contraseña actualizada con éxito'}, status=status.HTTP_200_OK)
+    except Usuario.DoesNotExist:
+        return Response({'message': 'Correo no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['POST'])
+def validar_correo(request):
+    email = request.data.get('correo').strip()
+    print(f"Correo recibido para validación: '{email}'")  # Asegúrate de ver el correo exacto que se está enviando
+    if email and Usuario.objects.filter(correo__iexact=email).exists():  # Búsqueda insensible a mayúsculas
+        print("Correo encontrado en la base de datos.")
+        return Response({'message': 'Correo encontrado'}, status=status.HTTP_200_OK)
+    else:
+        print(f"Correo '{email}' no encontrado en la base de datos.")
+        return Response({'message': 'Correo no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['POST'])
+def actualizar_contraseña(request):
+    correo = request.data.get('correo')
+    nueva_contraseña = request.data.get('nueva_contraseña')
+
+    if not correo or not nueva_contraseña:
+        return Response({'error': 'Datos incompletos.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        usuario = Usuario.objects.get(correo=correo)
+        usuario.contrasena = nueva_contraseña
+        usuario.save()
+        return Response({'message': 'Contraseña actualizada con éxito.'}, status=status.HTTP_200_OK)
+    except Usuario.DoesNotExist:
+        return Response({'error': 'Usuario no encontrado.'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def cambiar_contraseña(request):
+    correo = request.data.get('correo')
+    current_password = request.data.get('current_password')
+    new_password = request.data.get('new_password')
+
+    try:
+        usuario = Usuario.objects.get(correo=correo)
+        if usuario.contrasena != current_password:
+            return Response({'error': 'La contraseña actual es incorrecta.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        usuario.contrasena = new_password
+        usuario.save()
+        return Response({'message': 'Contraseña actualizada con éxito.'}, status=status.HTTP_200_OK)
+    except Usuario.DoesNotExist:
+        return Response({'error': 'Usuario no encontrado.'}, status=status.HTTP_404_NOT_FOUND)

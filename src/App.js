@@ -46,6 +46,7 @@ import RegistroDocente from './RegistroDocente';
 import RecuperarContraseña from './RecuperarContraseña';
 import CursoDetalle from "./CursoDetalle"; // Importar el nuevo componente
 import CalificacionesTableau from './CalificacionesTableau';
+import NuevaContraseña from './NuevaContraseña';
 
 
 
@@ -99,6 +100,7 @@ function App() {
           <Route path="/recuperar-contraseña-admin" element={<RecuperarContraseñaAdmin />} />
           <Route path="/curso-detalle/:cursoId" element={<CursoDetalle />} />
           <Route path="/calificaciones-tableau" element={<CalificacionesTableau />} />
+          <Route path="/nueva-contraseña" element={<NuevaContraseña />} />
 
         </Routes>
       </div>

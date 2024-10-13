@@ -1,17 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CambiarContraseña.css';
 
 function CambiarContraseña() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
+  const [popupMessage, setPopupMessage] = useState('');
+  const [userName, setUserName] = useState(''); // Estado para almacenar el nombre del usuario
 
-  const handlePasswordChange = (e) => {
-    e.preventDefault();
-    if (newPassword === repeatPassword) {
-      console.log('Contraseña cambiada');
+  useEffect(() => {
+    const storedUserName = localStorage.getItem('user_name'); // Obtiene el nombre completo desde localStorage
+    if (storedUserName) {
+      setUserName(storedUserName);
     } else {
-      console.log('Las contraseñas no coinciden');
+      console.error('No se encontró el nombre del usuario en localStorage');
+    }
+  }, []);
+
+  const handlePasswordChange = async (e) => {
+    e.preventDefault();
+
+    if (newPassword !== repeatPassword) {
+      setPopupMessage('Las contraseñas no coinciden.');
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setPopupMessage('No se encontró el token de autenticación. Inicia sesión nuevamente.');
+        return;
+      }
+
+      const response = await fetch('http://localhost:8000/api/cambiar-contraseña/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          current_password: currentPassword,
+          new_password: newPassword,
+        }),
+      });
+
+      if (response.ok) {
+        setPopupMessage('Tu contraseña ha sido actualizada exitosamente.');
+        setCurrentPassword('');
+        setNewPassword('');
+        setRepeatPassword('');
+      } else if (response.status === 400) {
+        setPopupMessage('La contraseña actual es incorrecta.');
+      } else {
+        setPopupMessage('Hubo un error al actualizar la contraseña. Por favor, intenta nuevamente.');
+      }
+    } catch (error) {
+      setPopupMessage('Error del servidor. Por favor, intenta más tarde.');
     }
   };
 
@@ -31,14 +75,14 @@ function CambiarContraseña() {
         <aside className="perfil-sidebar">
           <div className="perfil-avatar">
             <img src="/user-avatar.png" alt="User Avatar" className="perfil-avatar-img" />
-            <h2>Hola, User01!</h2>
+            <h2>Hola, {userName || 'Usuario'}!</h2> {/* Mostrar el nombre del usuario */}
           </div>
           <ul className="perfil-menu">
             <li><a href="/mi-perfil">Mi Perfil</a></li>
             <li><a href="/historial-cursos">Historial de cursos</a></li>
             <li><a href="/contactos">Contactos</a></li>
             <li><a href="#" className="active">Cambiar contraseña</a></li>
-            <li><a href="#">Cerrar Sesión</a></li>
+            <li><a href="/">Cerrar Sesión</a></li>
           </ul>
         </aside>
 
@@ -70,6 +114,7 @@ function CambiarContraseña() {
               />
               <button type="submit">Cambiar contraseña</button>
             </form>
+            {popupMessage && <div className="popup">{popupMessage}</div>}
           </div>
         </section>
       </main>
