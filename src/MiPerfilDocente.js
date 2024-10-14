@@ -1,18 +1,23 @@
-import React from "react";
+
 import { Link } from "react-router-dom";
 import "./MiPerfilDocente.css";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 
 function MiPerfilDocente() {
-  const perfil = {
-    nombres: "Docente01",
-    apellidos: "ApellidoDocente",
-    dni: "12345678",
-    dia: 15,
-    mes: 6,
-    ano: 1980,
-    correo: "docente01@ejemplo.com",
-    telefono: "999888777",
-  };
+  
+    const [perfil, setPerfil] = useState({
+      nombres: "",
+      apellidos: "",  
+      dni: "",
+      dia: "",
+      mes: "",
+      anio: "",
+      correo: "",
+      telefono: "",
+    });
+    const [error, setError] = useState(null);
 
   const calcularEdad = (dia, mes, ano) => {
     const hoy = new Date();
@@ -23,8 +28,29 @@ function MiPerfilDocente() {
     if (mes > mesActual || (mes === mesActual && dia > diaActual)) {
       edad--;
     }
-    return edad;
+    return edad;   
   };
+  useEffect(() => {
+    const docenteId = localStorage.getItem("docente_id");
+  
+    if (docenteId) {
+      axios
+        .get(`http://localhost:8000/api/docente-profile/${docenteId}/`)
+        .then((response) => {
+          setPerfil(response.data);
+          localStorage.setItem('docente_id', `${response.data.nombres} ${response.data.apellidos}`); // Guarda el nombre completo
+        })
+        .catch((error) => {
+          setError("No se pudo obtener la información del perfil");
+        });
+    } else {
+      setError("No se encontró el ID de docente.");
+    }
+  }, []);
+  if (error) {
+    return <div>{error}</div>;
+  }
+
 
   return (
     <div className="mi-perfil-docente-container">

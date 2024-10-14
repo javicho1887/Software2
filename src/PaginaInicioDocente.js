@@ -9,7 +9,7 @@ function PaginaInicioDocente() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Objeto con los datos del usuario
     const data = {
       username: username,
@@ -30,12 +30,16 @@ function PaginaInicioDocente() {
 
       // Verificar si la respuesta es exitosa
       if (response.ok) {
-        // Redirigir a la página de MisCursosDocente
+        // Guarda el docente_id en localStorage
+        localStorage.setItem("docente_id", result.docente_id); // Asegúrate de que el backend devuelva docente_id
+
+        // Redirigir a la página de Mis Cursos Docente
         navigate('/mis-cursos-docente');
       } else {
         // Mostrar mensaje de error
         alert(result.error || 'Usuario o contraseña incorrecta');
       }
+      
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
       alert('Error al conectar con el servidor.');

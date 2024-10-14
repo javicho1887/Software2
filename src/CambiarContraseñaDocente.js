@@ -6,6 +6,10 @@ function CambiarContraseñaDocente() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
+  const [popupMessage, setPopupMessage] = useState('');
+  const [userName, setUserName] = useState(''); // Estado para almacenar el nombre del usuario
+
+
 
   const handlePasswordChange = (e) => {
     e.preventDefault();

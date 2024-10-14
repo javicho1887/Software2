@@ -7,7 +7,7 @@ from .views import validar_correo
 from .views import cambiar_contraseña
 from .views import registro_docente
 from .views import login_docente
-
+from .views import docente_profile
 
 urlpatterns = [
     path('registro/', registro_usuario, name='registro_usuario'),  # Solo mantienes el registro de usuario
@@ -19,7 +19,6 @@ urlpatterns = [
      # Rutas para Docente
      path('docentes/registro/', registro_docente, name='registro_docente'),
      path('login/docente/', login_docente, name='login_docente'),
-    
-    
+    path('docente-profile/<int:docente_id>/', views.docente_profile, name='docente-profile'),
 ]
 

@@ -15,6 +15,7 @@ from django.http import JsonResponse, HttpResponseNotAllowed
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
 from .models import Docente
+from .serializers import DocenteSerializer
 
 @api_view(['POST'])
 def registro_usuario(request):
@@ -136,22 +137,23 @@ def registro_docente(request):
 
 @api_view(['POST'])
 def login_docente(request):
-    if request.method == 'POST':
-        correo = request.data.get('username')
-        password = request.data.get('password')
-        
-        try:
-            docente = Docente.objects.get(correo=correo)
-            if docente.contraseña == password:
-                return JsonResponse({'success': True}, status=200)
-            else:
-                return JsonResponse({'error': 'Usuario o contraseña incorrectos.'}, status=400)
-        except Docente.DoesNotExist:
-            return JsonResponse({'error': 'Usuario no encontrado.'}, status=404)
-@api_view(['GET'])
-def user_profile(request, user_id):
+    correo = request.data.get('username')
+    password = request.data.get('password')
+
     try:
-        docente = Docente.objects.get(id=user_id)
+        docente = Docente.objects.get(correo=correo)
+        if docente.contraseña == password:
+            # Incluir docente_id en la respuesta
+            return JsonResponse({'success': True, 'docente_id': docente.id}, status=200)
+        else:
+            return JsonResponse({'error': 'Usuario o contraseña incorrectos.'}, status=400)
+    except Docente.DoesNotExist:
+        return JsonResponse({'error': 'Usuario no encontrado.'}, status=404)
+
+@api_view(['GET'])
+def docente_profile(request, docente_id):
+    try:
+        docente = Docente.objects.get(id=docente_id)
         serializer = DocenteSerializer(docente)
         return Response(serializer.data)
     except Docente.DoesNotExist:
