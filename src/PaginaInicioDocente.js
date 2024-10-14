@@ -18,7 +18,7 @@ function PaginaInicioDocente() {
 
     // Enviar solicitud al backend para iniciar sesión
     try {
-      const response = await fetch('/api/docentes/login/docente/', {
+      const response = await fetch('http://localhost:8000/api/login/docente/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
