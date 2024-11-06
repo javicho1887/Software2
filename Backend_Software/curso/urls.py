@@ -22,6 +22,19 @@ urlpatterns = [
     path('login/docente/', login_docente, name='login_docente'),
     path('docente-profile/<int:docente_id>/', views.docente_profile, name='docente-profile'),
 
+    # Rutas para cursos
+    path('cursos/usuario/<int:user_id>/', views.cursos_usuario, name='cursos_usuario'),
+
+    # Rutas para sesiones
+    path('sesiones/', views.lista_sesiones, name='lista_sesiones'),  # Obtener todas las sesiones
+    path('sesiones/<int:sesion_id>/', views.detalle_sesion, name='detalle_sesion'),  # Obtener detalle de una sesión
+    path('sesiones/curso/<int:curso_id>/', views.lista_sesiones_por_curso, name='lista_sesiones_por_curso'),
+    path('sesiones/curso/<int:curso_id>/usuario/<int:user_id>/', views.lista_sesiones_por_curso_usuario, name='lista_sesiones_por_curso'),
+    path('sesiones/crear/', views.crear_sesion, name='crear_sesion'),  # Crear una nueva sesión
+    path('sesiones/<int:sesion_id>/actualizar/', views.actualizar_sesion, name='actualizar_sesion'),  # Actualizar una sesión
+    path('sesiones/<int:sesion_id>/eliminar/', views.eliminar_sesion, name='eliminar_sesion'),  # Eliminar una sesión
+
+
     # Rutas matrícula
     path('matriculas/', views.lista_matriculas, name='lista_matriculas'),
     path('matriculas/crear/', views.crear_matricula, name='crear_matricula'),

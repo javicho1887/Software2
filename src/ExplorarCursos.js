@@ -39,12 +39,12 @@ function ExplorarCursos() {
       <main className="courses-layout">
         <div className="courses-grid">
           <div className="course-card">
-            <Link to="/curso-detalle/1">
+            <Link to="/curso-detalle/2">
               <img src="/excel-icon.png" alt="Excel" className="course-icon" />
             </Link>
           </div>
           <div className="course-card">
-            <Link to="/curso-detalle/2">
+            <Link to="/curso-detalle/3">
               <img
                 src="/powerbi-icon.png"
                 alt="Power BI"
@@ -53,12 +53,12 @@ function ExplorarCursos() {
             </Link>
           </div>
           <div className="course-card">
-            <Link to="/curso-detalle/3">
+            <Link to="/curso-detalle/4">
               <img src="/java-icon.png" alt="Java" className="course-icon" />
             </Link>
           </div>
           <div className="course-card">
-            <Link to="/curso-detalle/4">
+            <Link to="/curso-detalle/5">
               <img
                 src="/python-icon.png"
                 alt="Python"
@@ -67,12 +67,12 @@ function ExplorarCursos() {
             </Link>
           </div>
           <div className="course-card">
-            <Link to="/curso-detalle/5">
+            <Link to="/curso-detalle/6">
               <img src="/figma-icon.png" alt="Figma" className="course-icon" />
             </Link>
           </div>
           <div className="course-card">
-            <Link to="/curso-detalle/6">
+            <Link to="/curso-detalle/7">
               <img
                 src="/tableau-icon.png"
                 alt="Tableau"

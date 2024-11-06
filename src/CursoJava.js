@@ -1,7 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import './CursoJava.css';
 
 function CursoJava() {
+  const [sesions, setSesions] = useState([]);
+  const cursoId = 4;
+
+  const getSesionsData = async () => {
+    // sesiones/curso/<int:curso_id>/usuario/<int:user_id>/
+    await axios
+      .get(`http://127.0.0.1:8000/api/sesiones/curso/${cursoId}/usuario/11`)
+      .then((res) => {
+        if (res.status == 200) {
+          setSesions(res.data);
+          console.log(res.data);
+        }
+        console.log(res.status);
+        // console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getSesionsData();
+  }, []);
   return (
     <div className="curso-java-container">
       <header className="curso-java-header">
@@ -22,20 +46,20 @@ function CursoJava() {
         </div>
 
         <section className="modulos-list">
-          <div className="modulo">
-            <span className="modulo-number">1</span>
-            <div className="modulo-info">
-              <h3>Introducción a Java</h3>
-              <p>Módulo 1</p>
-            </div>
-          </div>
-          <div className="modulo">
-            <span className="modulo-number">1</span>
-            <div className="modulo-info">
-              <h3>Introducción a Java</h3>
-              <p>Módulo 2</p>
-            </div>
-          </div>
+          {sesions.map((item) => {
+            return (
+              <div className="modulo">
+                <span className="modulo-number">1</span>
+                <div className="modulo-info">
+                  <h3>Sesión de Java</h3>
+                  <p>Fecha {new Date(item.fecha)
+                    .toISOString()
+                    .slice(0, 19)
+                    .replace("T", " ")}{" "}</p>
+                </div>
+              </div>
+            );
+          })}
         </section>
 
         {/* Sección de Evaluaciones */}

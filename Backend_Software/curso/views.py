@@ -10,12 +10,8 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.http import JsonResponse, HttpResponseNotAllowed
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
-from .models import Usuario, Docente, Matricula
-from .serializers import UsuarioSerializer
-from .serializers import UsuarioRegistroSerializer
-from .serializers import DocenteSerializer
-from .serializers import DocenteRegistroSerializer
-from .serializers import MatriculaSerializer
+from .models import Usuario, Docente, Matricula, Sesion
+from .serializers import UsuarioSerializer, SesionSerializer, UsuarioRegistroSerializer, DocenteSerializer, DocenteRegistroSerializer, MatriculaSerializer, CursoSerializer
 
 @api_view(['POST'])
 def registro_usuario(request):
@@ -160,6 +156,112 @@ def docente_profile(request, docente_id):
         return Response({'error': 'Docente no encontrado'}, status=404)
 
 
+# Cursos
+@api_view(['GET'])
+def cursos_usuario(request, user_id):
+    """
+    Obtiene todos los cursos en los que el usuario con `user_id` tiene matrículas.
+    """
+    # Filtrar las matrículas por el usuario especificado
+    matriculas = Matricula.objects.filter(usuario_id=user_id).select_related('sesion__curso')
+    
+    # Obtener los cursos únicos de esas matrículas
+    cursos = {matricula.sesion.curso for matricula in matriculas}
+    
+    if not cursos:
+        return Response({'error': 'El usuario no tiene matrículas en ningún curso'}, status=status.HTTP_404_NOT_FOUND)
+    
+    # Serializar los cursos
+    serializer = CursoSerializer(cursos, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+#  Sesiones
+
+# Crear una nueva sesión
+@api_view(['POST'])
+def crear_sesion(request):
+    serializer = SesionSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Obtener todas las sesiones
+@api_view(['GET'])
+def lista_sesiones(request):
+    sesiones = Sesion.objects.all()
+    serializer = SesionSerializer(sesiones, many=True)
+    return Response(serializer.data)
+
+# Obtener detalles de una sesión específica
+@api_view(['GET'])
+def detalle_sesion(request, sesion_id):
+    try:
+        sesion = Sesion.objects.get(id=sesion_id)
+        serializer = SesionSerializer(sesion)
+        return Response(serializer.data)
+    except Sesion.DoesNotExist:
+        return Response({'error': 'Sesión no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+    
+@api_view(['GET'])
+def lista_sesiones_por_curso(request, curso_id):
+    """
+    Obtiene todas las sesiones de un curso específico e indica si el usuario está inscrito en cada una.
+    """
+    sesiones = Sesion.objects.filter(curso_id=curso_id)
+    if not sesiones.exists():
+        return Response({'error': 'No se encontraron sesiones para este curso'}, status=status.HTTP_404_NOT_FOUND)
+    
+    # Serializar las sesiones y agregar el campo 'inscrito' para cada una
+    serializer = SesionSerializer(sesiones, many=True)
+    sesiones_data = serializer.data
+
+    return Response(sesiones_data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def lista_sesiones_por_curso_usuario(request, curso_id, user_id):
+    """
+    Obtiene todas las sesiones de un curso específico e indica si el usuario está inscrito en cada una.
+    """
+    sesiones = Sesion.objects.filter(curso_id=curso_id)
+    if not sesiones.exists():
+        return Response({'error': 'No se encontraron sesiones para este curso'}, status=status.HTTP_404_NOT_FOUND)
+    
+    # Obtener las sesiones en las que el usuario está inscrito
+    matriculas_usuario = Matricula.objects.filter(usuario_id=user_id, sesion_id__in=sesiones.values_list('id', flat=True))
+    sesiones_inscritas = set(matriculas_usuario.values_list('sesion_id', flat=True))
+    
+    # Serializar las sesiones y agregar el campo 'inscrito' para cada una
+    serializer = SesionSerializer(sesiones, many=True)
+    sesiones_data = serializer.data
+    for sesion in sesiones_data:
+        sesion['inscrito'] = sesion['id'] in sesiones_inscritas
+
+    return Response(sesiones_data, status=status.HTTP_200_OK)
+
+# Actualizar una sesión
+@api_view(['PUT'])
+def actualizar_sesion(request, sesion_id):
+    try:
+        sesion = Sesion.objects.get(id=sesion_id)
+    except Sesion.DoesNotExist:
+        return Response({'error': 'Sesión no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = SesionSerializer(sesion, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Eliminar una sesión
+@api_view(['DELETE'])
+def eliminar_sesion(request, sesion_id):
+    try:
+        sesion = Sesion.objects.get(id=sesion_id)
+        sesion.delete()
+        return Response({'message': 'Sesión eliminada con éxito'}, status=status.HTTP_204_NO_CONTENT)
+    except Sesion.DoesNotExist:
+        return Response({'error': 'Sesión no encontrada'}, status=status.HTTP_404_NOT_FOUND)
 
 
 # Crear una nueva matrícula
@@ -168,16 +270,16 @@ def crear_matricula(request):
     """
     {
         "usuario": 1,
-        "curso": 2
+        "sesion": 2
     }
     """
     usuario_id = request.data.get('usuario')
-    curso_id = request.data.get('curso')
+    sesion_id = request.data.get('sesion')
 
-    # Verificar si ya existe una matrícula para el mismo usuario y curso
-    if Matricula.objects.filter(usuario_id=usuario_id, curso_id=curso_id).exists():
+    # Verificar si ya existe una matrícula para el mismo usuario y sesión
+    if Matricula.objects.filter(usuario_id=usuario_id, sesion_id=sesion_id).exists():
         return Response(
-            {'error': 'El usuario ya está registrado en este curso.'},
+            {'error': 'El usuario ya está registrado en esta sesión.'},
             status=status.HTTP_400_BAD_REQUEST
         )
 

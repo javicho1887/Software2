@@ -1,6 +1,6 @@
 export const cursos = [
   {
-    id: 1,
+    id: 2,
     nombre: "Curso de Excel",
     icono: "/icon-excel.png",
     descripcion:
@@ -8,7 +8,7 @@ export const cursos = [
     horarios: ["Lunes 10:00 AM", "Martes 2:00 PM", "Miércoles 6:00 PM"],
   },
   {
-    id: 2,
+    id: 3,
     nombre: "Curso de Power BI",
     icono: "/icon-powerbi.png",
     descripcion:
@@ -16,7 +16,7 @@ export const cursos = [
     horarios: ["Lunes 10:00 AM", "Martes 2:00 PM", "Miércoles 6:00 PM"],
   },
   {
-    id: 3,
+    id: 4,
     nombre: "Curso de Java",
     icono: "/icon-java.png",
     descripcion:
@@ -24,7 +24,7 @@ export const cursos = [
     horarios: ["Lunes 10:00 AM", "Martes 2:00 PM", "Miércoles 6:00 PM"],
   },
   {
-    id: 4,
+    id: 5,
     nombre: "Curso de Python",
     icono: "/icon-python.png",
     descripcion:
@@ -32,7 +32,7 @@ export const cursos = [
     horarios: ["Lunes 10:00 AM", "Martes 2:00 PM", "Miércoles 6:00 PM"],
   },
   {
-    id: 5,
+    id: 6,
     nombre: "Curso de Figma",
     icono: "/icon-figma.png",
     descripcion:
@@ -40,7 +40,7 @@ export const cursos = [
     horarios: ["Lunes 10:00 AM", "Martes 2:00 PM", "Miércoles 6:00 PM"],
   },
   {
-    id: 6,
+    id: 7,
     nombre: "Curso de Tableau",
     icono: "/icon-tableau.png",
     descripcion:

@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./CursoDetalle.css"; // Asegúrate de que tu archivo CSS esté correctamente enlazado
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { cursos } from "./utils/data";
+import axios from "axios";
 
 function CursoDetalle() {
   const { cursoId } = useParams();
 
   const CursosData = cursos;
+  const navigate = useNavigate();
+
   const [curso, setCurso] = useState({
     id: 1,
     nombre: "Curso de Excel",
@@ -16,15 +19,44 @@ function CursoDetalle() {
     horarios: ["Lunes 10:00 AM", "Martes 2:00 PM", "Miércoles 6:00 PM"],
   });
 
+  const [sesions, setSesions] = useState([]);
+
+  const getSesionsData = async () => {
+    // sesiones/curso/<int:curso_id>/usuario/<int:user_id>/
+    await axios
+      .get(`http://127.0.0.1:8000/api/sesiones/curso/${cursoId}/usuario/11`)
+      .then((res) => {
+        if (res.status == 200) {
+          setSesions(res.data);
+          console.log(res.data);
+        }
+        console.log(res.status);
+        // console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
+    getSesionsData();
+
     const temp = CursosData.find((item) => item.id.toString() == cursoId);
     setCurso(temp);
   }, []);
 
   const [horarios] = useState(curso.horarios);
 
-  const handleGuardarHorario = (horario) => {
-    alert(`Has guardado el horario: ${horario}`);
+  const handleInscripcion = async (item) => {
+    await axios.post('http://127.0.0.1:8000/api/matriculas/crear/', {
+      usuario: 11,
+      sesion: item.id
+    })
+    window.location.reload();
+  };
+  
+  const verInscripcion = () => {
+    navigate("/mis-cursos");
   };
 
   return (
@@ -71,17 +103,33 @@ function CursoDetalle() {
 
           <h2>Horarios disponibles</h2>
           <ul className="course-schedule">
-            {horarios.map((horario, index) => (
-              <li key={index} className="schedule-item">
-                {horario}{" "}
-                <button
-                  className="register-button"
-                  onClick={() => handleGuardarHorario(horario)}
-                >
-                  Guardar
-                </button>
-              </li>
-            ))}
+            {sesions.length == 0 ? (
+              <p>No hay sesiones para este curso</p>
+            ) : (
+              sesions.map((item, index) => (
+                <li key={index} className="schedule-item">
+                  {new Date(item.fecha)
+                    .toISOString()
+                    .slice(0, 19)
+                    .replace("T", " ")}{" "}
+                  {item.inscrito ? (
+                    <button
+                      className="register-button inscrito"
+                      onClick={() => verInscripcion()}
+                    >
+                      Ver inscripción
+                    </button>
+                  ) : (
+                    <button
+                      className="register-button"
+                      onClick={() => handleInscripcion(item)}
+                    >
+                      Inscribirse
+                    </button>
+                  )}
+                </li>
+              ))
+            )}
           </ul>
         </div>
       </div>
