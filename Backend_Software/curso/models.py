@@ -27,3 +27,18 @@ class Docente(models.Model):
 
     def __str__(self):
         return f'{self.nombres} {self.apellidos}'
+
+class Curso(models.Model):
+    title = models.CharField(max_length=100)
+    descripcion = models.CharField(max_length=200)
+    fecha = models.DateTimeField()
+    costo = models.FloatField()
+    docente = models.ForeignKey(Docente, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.title} {self.fecha}'
+
+class Matricula(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
+    date_joined = models.DateField(auto_now_add=True)

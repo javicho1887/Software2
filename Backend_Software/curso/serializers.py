@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Usuario, Docente
+from .models import Usuario, Docente, Matricula
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,3 +22,8 @@ class DocenteRegistroSerializer(serializers.ModelSerializer):
         model = Docente
         fields = ['nombres', 'apellidos', 'dni', 'dia', 'mes', 'anio', 'correo', 'telefono', 'contraseña']
         extra_kwargs = {'contrasena': {'write_only': True}}
+
+class MatriculaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Matricula
+        fields = '__all__'

@@ -2,20 +2,20 @@ from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Usuario
-from .serializers import UsuarioSerializer
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from .serializers import UsuarioRegistroSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from .serializers import DocenteRegistroSerializer
 from django.http import JsonResponse, HttpResponseNotAllowed
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
-from .models import Docente
+from .models import Usuario, Docente, Matricula
+from .serializers import UsuarioSerializer
+from .serializers import UsuarioRegistroSerializer
 from .serializers import DocenteSerializer
+from .serializers import DocenteRegistroSerializer
+from .serializers import MatriculaSerializer
 
 @api_view(['POST'])
 def registro_usuario(request):
@@ -158,3 +158,59 @@ def docente_profile(request, docente_id):
         return Response(serializer.data)
     except Docente.DoesNotExist:
         return Response({'error': 'Docente no encontrado'}, status=404)
+
+
+
+
+# Crear una nueva matrícula
+@api_view(['POST'])
+def crear_matricula(request):
+    """
+    {
+        "usuario": 1,
+        "curso": 2
+    }
+    """
+    usuario_id = request.data.get('usuario')
+    curso_id = request.data.get('curso')
+
+    # Verificar si ya existe una matrícula para el mismo usuario y curso
+    if Matricula.objects.filter(usuario_id=usuario_id, curso_id=curso_id).exists():
+        return Response(
+            {'error': 'El usuario ya está registrado en este curso.'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    # Si no existe la matrícula, procedemos a crearla
+    serializer = MatriculaSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Obtener todas las matrículas
+@api_view(['GET'])
+def lista_matriculas(request):
+    matriculas = Matricula.objects.all()
+    serializer = MatriculaSerializer(matriculas, many=True)
+    return Response(serializer.data)
+
+# Obtener detalles de una matrícula específica
+@api_view(['GET'])
+def detalle_matricula(request, matricula_id):
+    try:
+        matricula = Matricula.objects.get(id=matricula_id)
+        serializer = MatriculaSerializer(matricula)
+        return Response(serializer.data)
+    except Matricula.DoesNotExist:
+        return Response({'error': 'Matrícula no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+
+# Eliminar una matrícula
+@api_view(['DELETE'])
+def eliminar_matricula(request, matricula_id):
+    try:
+        matricula = Matricula.objects.get(id=matricula_id)
+        matricula.delete()
+        return Response({'message': 'Matrícula eliminada con éxito'}, status=status.HTTP_204_NO_CONTENT)
+    except Matricula.DoesNotExist:
+        return Response({'error': 'Matrícula no encontrada'}, status=status.HTTP_404_NOT_FOUND)
