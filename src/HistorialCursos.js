@@ -31,14 +31,18 @@ function HistorialCursos() {
       <header className="historial-cursos-header">
         <img src="/logo.png" alt="NextLevel Logo" className="logo" />
         <nav className="nav-bar">
-          <button className="nav-button">Explorar Cursos</button>
-          <button className="nav-button">Mis Cursos</button>
-          <button className="nav-button">Mensajes</button>
-          <img
-            src="/user-avatar.png"
-            alt="User Avatar"
-            className="user-avatar"
-          />
+          <Link to="/explorar-cursos" className="nav-button">
+            Explorar Cursos
+          </Link>
+          <Link to="/mis-cursos" className="nav-button">
+            Mis Cursos
+          </Link>
+          <Link to="/mensajes" className="nav-button">
+            Mensajes
+          </Link>
+          <Link to="/mi-perfil">
+            <img src="/user-avatar.png" alt="User Avatar" className="user-avatar" />
+          </Link>
         </nav>
       </header>
 
@@ -61,12 +65,7 @@ function HistorialCursos() {
                 Historial de cursos
               </a>
             </li>
-            <li>
-              <a href="/contactos">Contactos</a>
-            </li>
-            <li>
-              <a href="/cambiar-contraseña">Cambiar contraseña</a>
-            </li>
+           
             <li>
               <a href="#">Cerrar Sesión</a>
             </li>

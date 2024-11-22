@@ -6,14 +6,6 @@ import MisCursos from './MisCursos';
 import Mensajes from './Mensajes';
 import MiPerfil from './MiPerfil';
 import HistorialCursos from './HistorialCursos';
-import Contactos from './Contactos';
-import CambiarContraseña from './CambiarContraseña';
-import CursoExcel from './CursoExcel';
-import CursoPower from './CursoPower';
-import CursoJava from './CursoJava';
-import CursoPython from './CursoPython';
-import CursoFigma from './CursoFigma';
-import CursoTableau from './CursoTableau';
 import AnunciosCursoDocente from './AnunciosCursoDocente';
 import ContenidoCursoDocente from './ContenidoCursoDocente';
 import CalificacionesCursoDocente from './CalificacionesCursoDocente';
@@ -31,12 +23,6 @@ import ListaProfesores from './ListaProfesores';
 import ListaAlumnos from './ListaAlumnos';
 import CambiarContraseñaAdmin from './CambiarContraseñaAdmin';
 import EditarAdmin from './Editar';
-import CursoExcelAdmin from './CursoExcelAdmin';
-import CursoPowerBiAdmin from './CursoPowerBiAdmin';
-import CursoJavaAdmin from './CursoJavaAdmin';
-import CursoPythonAdmin from './CursoPythonAdmin';
-import CursoFigmaAdmin from './CursoFigmaAdmin';
-import CursoTableauAdmin from './CursoTableauAdmin';
 import EditarModulo from './EditarModulo';
 import AgregarModulo from './AgregarModulo';
 import AgregarCurso from './AgregarCurso';
@@ -50,6 +36,10 @@ import NuevaContraseña from './NuevaContraseña';
 import MiPerfilDocente from './MiPerfilDocente';
 import CambiarContraseñaDocente from './CambiarContraseñaDocente';
 import ContactosDocente from './ContactosDocente';
+import CursoDetalleRegistrado from './CursoDetalleRegistrado';
+import Asistencia from "./Asistencia";
+import Sugerencias from './Sugerencias';
+import Encuesta from './Encuesta';
 
 
 
@@ -64,14 +54,7 @@ function App() {
           <Route path="/mensajes" element={<Mensajes />} />
           <Route path="/mi-perfil" element={<MiPerfil />} />
           <Route path="/historial-cursos" element={<HistorialCursos />} />
-          <Route path="/contactos" element={<Contactos />} />
-          <Route path="/cambiar-contraseña" element={<CambiarContraseña />} />
-          <Route path="/curso-excel" element={<CursoExcel />} />
-          <Route path="/curso-powerbi" element={<CursoPower />} /> 
-          <Route path="/curso-java" element={<CursoJava />} /> 
-          <Route path="/curso-python" element={<CursoPython />} />
-          <Route path="/curso-figma" element={<CursoFigma />} /> 
-          <Route path="/curso-tableau" element={<CursoTableau />} />
+          
           <Route path="/anuncios-curso-docente" element={<AnunciosCursoDocente />} />
           <Route path="/contenido-curso-docente" element={<ContenidoCursoDocente />} />
           <Route path="/calificaciones-curso-docente" element={<CalificacionesCursoDocente />} />
@@ -89,12 +72,7 @@ function App() {
           <Route path="/cambiar-contraseña-admin" element={<CambiarContraseñaAdmin />} />
           <Route path="/editar-admin" element={<EditarAdmin />} />
           <Route path="/registro-docente" element={<RegistroDocente />} />
-          <Route path="/curso-excel-admin" element={<CursoExcelAdmin />} />
-          <Route path="/curso-powerbi-admin" element={<CursoPowerBiAdmin />} />
-          <Route path="/curso-java-admin" element={<CursoJavaAdmin />} />
-          <Route path="/curso-python-admin" element={<CursoPythonAdmin />} />
-          <Route path="/curso-figma-admin" element={<CursoFigmaAdmin />} />
-          <Route path="/curso-tableau-admin" element={<CursoTableauAdmin />} />
+ 
           <Route path="/editar-modulo" element={<EditarModulo />} />
           <Route path="/agregar-modulo" element={<AgregarModulo />} />
           <Route path="/agregar-curso" element={<AgregarCurso />} />
@@ -107,9 +85,10 @@ function App() {
           <Route path="/mi-perfil-docente" element={<MiPerfilDocente />} />
           <Route path="/cambiar-contraseña-docente" element={<CambiarContraseñaDocente />} />
           <Route path="/contactos-docente" element={<ContactosDocente />} />
-
-
-
+          <Route path="/curso-registrado/:cursoId" element={<CursoDetalleRegistrado />} />
+          <Route path="/ver-asistencia/:userId" element={<Asistencia />} />
+          <Route path="/sugerencias/curso/:cursoId" element={<Sugerencias />} />
+          <Route path="/encuesta/:cursoId" element={<Encuesta />} />
 
         </Routes>
       </div>

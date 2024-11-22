@@ -26,6 +26,13 @@
 
 }
 
+.nav-bar {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Espaciado entre botones */
+}
+
+
 .course-detail > div{
   display: flex;
   width: 90%;
@@ -96,4 +103,35 @@
 .help-link {
   color: #4caf50;
   text-decoration: none;
+  margin-bottom: 20px;
+}
+
+.course-detail-header {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end; /* Cambiado a flex-end para alinear a la derecha */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #e0eff5;
+}
+
+.register-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.register-button:hover {
+  background-color: #45a049;
+}
+
+.register-button.inscrito {
+  background-color: #a0a341;
+  cursor: not-allowed;
+}
+
+.espaciado {
+  margin-bottom: 20px;
 }

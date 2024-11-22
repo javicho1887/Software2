@@ -4,52 +4,61 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 function MisCursos() {
-  const userId = 11;
+  const userId = localStorage.getItem("user_id");
 
   const [data, setData] = useState([]);
 
   const images = {
-    "Excel" : "/excel-icon.png",
-    "PowerBI" : "/powerbi-icon.png",
-    "Java" : "/java-icon.png",
-    "Python": "/python-icon.png",
-    "Tableau" : "/tableau-icon.png",
-    "Figma" : "/figma-icon.png",
-  }
-
-  const getSesionsData = async () => {
-    // sesiones/curso/<int:curso_id>/usuario/<int:user_id>/
-    await axios
-      .get(`http://127.0.0.1:8000/api/cursos/usuario/${userId}/`)
-      .then((res) => {
-        if (res.status == 200) {
-          setData(res.data);
-          console.log(res.data);
-        }
-        console.log(res.status);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    Excel: "/excel-icon.png",
+    PowerBI: "/powerbi-icon.png",
+    Java: "/java-icon.png",
+    Python: "/python-icon.png",
+    Tableau: "/tableau-icon.png",
+    Figma: "/figma-icon.png",
   };
 
   useEffect(() => {
-    getSesionsData();
-  }, []);
+    if (!userId) {
+      console.error("El ID de usuario no está definido en localStorage");
+      return;
+    }
+
+    const getCursosData = async () => {
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/cursos/usuario/${userId}/`);
+        if (response.status === 200) {
+          setData(response.data);
+        } else {
+          console.error("Error al cargar los cursos:", response.status);
+        }
+      } catch (error) {
+        console.error("Error en la solicitud al backend:", error);
+      }
+    };
+
+    getCursosData();
+  }, [userId]);
+
+  if (!userId) {
+    return <div>Error: El ID de usuario no está definido. Por favor, inicie sesión.</div>;
+  }
 
   return (
     <div className="mis-cursos-container">
       <header className="mis-cursos-header">
         <img src="/logo.png" alt="NextLevel Logo" className="logo" />
         <nav className="nav-bar">
+          <Link to={`/ver-asistencia/${userId}`} className="nav-button">
+            Ver Asistencia
+          </Link>
           <Link to="/explorar-cursos" className="nav-button">
             Explorar Cursos
           </Link>
-          <Link to="/mis-cursos" className="nav-button active">
-            Mis Inscripciones
-          </Link>
           <Link to="/mensajes" className="nav-button">
             Mensajes
+          </Link>
+          <Link to="/mi-perfil">
+            <img src="/user-avatar.png" alt="User Avatar" className="user-avatar" />
           </Link>
         </nav>
       </header>
@@ -57,110 +66,30 @@ function MisCursos() {
       <main className="mis-cursos-main">
         <section className="mis-cursos-section">
           <h2>Mis Inscripciones</h2>
-          <input
-            type="text"
-            placeholder="Buscar curso..."
-            className="search-bar"
-          />
           <div className="cursos-grid">
             {data.map((item) => {
+              const rutaCurso = item.registrado
+                ? `/curso-registrado/${item.id}`
+                : `/curso-detalle/${item.id}`;
+
               return (
-                <Link to={`/curso-${item.title.toLowerCase()}`} className="curso-card">
+                <Link
+                  to={`${rutaCurso}?titulo=${encodeURIComponent(item.title)}`}
+                  className="curso-card"
+                  key={item.id}
+                >
                   <div className="curso-card">
                     <img
-                      src={images[item.title]}
-                      alt="Python"
+                      src={images[item.title] || "/default-icon.png"}
+                      alt={item.title}
                       className="curso-icon"
                     />
                   </div>
                 </Link>
               );
             })}
-            {/* <Link to="/curso-python" className="curso-card">
-              <div className="curso-card">
-                <img
-                  src="/python-icon.png"
-                  alt="Python"
-                  className="curso-icon"
-                />
-              </div>
-            </Link>
-
-            <Link to="/curso-figma" className="curso-card">
-              <div className="curso-card">
-                <img src="/figma-icon.png" alt="Figma" className="curso-icon" />
-              </div>
-            </Link>
-
-            <Link to="/curso-excel" className="curso-card">
-              <div className="curso-card">
-                <img src="/excel-icon.png" alt="Figma" className="curso-icon" />
-              </div>
-            </Link>
-
-            <Link to="/curso-detalle/3">
-              <div className="curso-card">
-                <img src="/java-icon.png" alt="Java" className="curso-icon" />
-              </div>
-            </Link>
-
-            <Link to="/curso-detalle/6">
-              <div className="curso-card">
-                <img
-                  src="/tableau-icon.png"
-                  alt="Tableau"
-                  className="curso-icon"
-                />
-              </div>
-            </Link>
-
-            <Link to="/curso-detalle/2">
-              <div className="curso-card">
-                <img
-                  src="/powerbi-icon.png"
-                  alt="Tableau"
-                  className="curso-icon"
-                />
-              </div>
-            </Link> */}
           </div>
         </section>
-
-        {/* <section className="cursos-complementarios-section">
-          <h2>Cursos Complementarios</h2>
-          <input
-            type="text"
-            placeholder="Buscar curso..."
-            className="search-bar"
-          />
-          <div className="cursos-grid">
-            <Link to="/curso-detalle/3">
-              <div className="curso-card">
-                <img src="/java-icon.png" alt="Java" className="curso-icon" />
-              </div>
-            </Link>
-
-            <Link to="/curso-detalle/6">
-              <div className="curso-card">
-                <img
-                  src="/tableau-icon.png"
-                  alt="Tableau"
-                  className="curso-icon"
-                />
-              </div>
-            </Link>
-
-            <Link to="/curso-detalle/2">
-              <div className="curso-card">
-                <img
-                  src="/powerbi-icon.png"
-                  alt="Tableau"
-                  className="curso-icon"
-                />
-              </div>
-            </Link>
-          </div>
-        </section> */}
       </main>
 
       <footer className="mis-cursos-footer">

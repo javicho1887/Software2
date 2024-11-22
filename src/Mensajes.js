@@ -1,82 +1,68 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./Mensajes.css";
 import { Link } from "react-router-dom";
 
 function Mensajes() {
-  const mensajes = [
-    {
-      id: 1,
-      avatar: "/user1.jpg",
-      mensaje: "Estimado alumno, la solución al problema planteado no la tengo porque el problema estuvo muy difícil...",
-      fecha: "10/09/2024",
-      curso: "Python",
-    },
-    {
-      id: 2,
-      avatar: "/user1.jpg",
-      mensaje: "Estimado alumno, la solución al problema planteado es...",
-      fecha: "10/09/2024",
-      curso: "Figma",
-    },
-    {
-      id: 3,
-      avatar: "/user1.jpg",
-      mensaje: "Estimado alumno, la solución al problema planteado es...",
-      fecha: "10/09/2024",
-      curso: "Figma2",
-    },
-    {
-      id: 4,
-      avatar: "/user1.jpg",
-      mensaje: "Estimado alumno, la solución al problema planteado es...",
-      fecha: "10/09/2024",
-      curso: "Java",
-    },
-  ];
+  const [mensajes, setMensajes] = useState([]);
+  const cursoId = 4; // ID del curso, ajusta esto según sea necesario.
+
+  // Fetch de los mensajes
+  useEffect(() => {
+    const fetchMensajes = async () => {
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/mensajes/curso/${cursoId}/`);
+        setMensajes(response.data);
+      } catch (error) {
+        console.error("Error al cargar los mensajes:", error);
+      }
+    };
+
+    fetchMensajes();
+  }, [cursoId]);
 
   return (
     <div className="mensajes-container">
+      {/* Navegador superior */}
       <header className="mensajes-header">
-        <img src="/logo.png" alt="NextLevel Logo" className="logo" />
+        <img src="/logo.png" alt="Logo" className="logo" />
         <nav className="nav-bar">
-          <Link to="/explorar-cursos" className="nav-button">
+        <Link to="/explorar-cursos" className="nav-button">
             Explorar Cursos
           </Link>
-          <Link to="/mis-cursos" className="nav-button">
-            Mis Cursos
+        
+          <Link to="/mis-cursos" className="nav-button">Mis Cursos</Link>
+          <Link to="/mensajes" className="nav-button">Mensajes</Link>
+          <Link to="/mi-perfil">
+            <img src="/user-avatar.png" alt="User Avatar" className="user-avatar" />
           </Link>
-          <Link to="/mensajes" className="nav-button active">
-            Mensajes
-          </Link>
-        </nav>
+          </nav>
       </header>
 
+      {/* Contenido principal */}
       <main className="mensajes-main">
         <h1>Mensajes</h1>
         <div className="mensajes-lista">
-          {mensajes.map((mensaje) => (
-            <div key={mensaje.id} className="mensaje-card">
-              <img
-                src={mensaje.avatar}
-                alt={`Avatar ${mensaje.curso}`}
-                className="mensaje-avatar"
-              />
-              <div className="mensaje-info">
-                <p>{mensaje.mensaje}</p>
+          {mensajes.length > 0 ? (
+            mensajes.map((mensaje) => (
+              <div key={mensaje.id} className="mensaje-card">
+                <img src="/user-avatar.png" alt="Avatar" className="mensaje-avatar" />
+                <div className="mensaje-info">
+                  <p>{mensaje.contenido}</p>
+                  <span className="mensaje-curso">Curso: {mensaje.curso_nombre}</span>
+                  <span>{new Date(mensaje.fecha_envio).toLocaleDateString()}</span>
+                </div>
               </div>
-              <div className="column-mensaje">
-                <span>{mensaje.fecha}</span>
-                <span className="mensaje-curso">Curso: {mensaje.curso}</span>
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p>No hay mensajes para este curso.</p>
+          )}
         </div>
       </main>
 
+      {/* Pie de página */}
       <footer className="mensajes-footer">
-        <a href="/help" className="help-link">
-          ¿Necesita ayuda?
-        </a>
+        <a href="#" className="help-link">¿Necesita ayuda?</a>
       </footer>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './CambiarContraseña.css';
+
 
 function EditarAdmin() {
   const [nombre, setNombre] = useState('');

@@ -8,6 +8,14 @@ from .views import cambiar_contraseña
 from .views import registro_docente
 from .views import login_docente
 from .views import docente_profile
+from .views import listar_cursos
+from .views import obtener_asesorias
+from .views import obtener_sesiones_curso
+from .views import crear_sugerencia, listar_sugerencias_curso
+from .views import crear_encuesta
+from .views import ActividadView
+
+
 
 urlpatterns = [
     path('registro/', registro_usuario, name='registro_usuario'),  # Solo mantienes el registro de usuario
@@ -24,6 +32,31 @@ urlpatterns = [
 
     # Rutas para cursos
     path('cursos/usuario/<int:user_id>/', views.cursos_usuario, name='cursos_usuario'),
+    path('cursos/', listar_cursos, name='listar_cursos'),
+    path('asistencia/usuario/<int:user_id>/', views.asistencia_usuario, name='asistencia_usuario'),
+    path('asistencia/usuario/<int:user_id>/curso/<int:curso_id>/', views.asistencia_usuario, name='asistencia_usuario_curso'),
+    path('asistencia/registrar/', views.registrar_asistencia, name='registrar_asistencia'),
+    path('asesorias/curso/<int:curso_id>/', obtener_asesorias, name='obtener_asesorias_curso'),
+    path('api/sesiones/curso/<int:curso_id>/', obtener_sesiones_curso, name='obtener_sesiones_curso'),
+    path('sugerencias/crear/', crear_sugerencia, name='crear_sugerencia'),
+    path('sugerencias/curso/<int:curso_id>/', listar_sugerencias_curso, name='listar_sugerencias_curso'),
+     path('encuestas/', crear_encuesta, name='crear_encuesta'), 
+     path('usuarios/curso/<int:curso_id>/', views.listar_usuarios_curso, name='listar_usuarios_curso'),
+    
+
+     # Rutas para documentos de los cursos
+    path('cursos/<int:curso_id>/documentos/', views.listar_documentos, name='listar_documentos'),  # Ruta para obtener los documentos de un curso específico
+    path('actividades/curso/<int:curso_id>/', ActividadView.as_view(), name='actividades-curso'),
+
+    # Rutas para Mensajes
+
+    path('mensajes/curso/<int:curso_id>/', views.listar_mensajes_curso, name='listar_mensajes_curso'),
+
+    path('mensajes/crear/', views.crear_mensaje, name='crear_mensaje'),
+
+
+
+
 
     # Rutas para sesiones
     path('sesiones/', views.lista_sesiones, name='lista_sesiones'),  # Obtener todas las sesiones
@@ -40,6 +73,8 @@ urlpatterns = [
     path('matriculas/crear/', views.crear_matricula, name='crear_matricula'),
     path('matriculas/<int:matricula_id>/', views.detalle_matricula, name='detalle_matricula'),
     path('matriculas/<int:matricula_id>/eliminar/', views.eliminar_matricula, name='eliminar_matricula'),
+    path('cursos/<int:curso_id>/', views.obtener_curso, name='obtener_curso'),  # Ruta para obtener un curso por ID
+
 
 ]
 

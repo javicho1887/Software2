@@ -11,7 +11,11 @@ from django.http import JsonResponse, HttpResponseNotAllowed
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
 from .models import Usuario, Docente, Matricula, Sesion
-from .serializers import UsuarioSerializer, SesionSerializer, UsuarioRegistroSerializer, DocenteSerializer, DocenteRegistroSerializer, MatriculaSerializer, CursoSerializer
+from .serializers import UsuarioSerializer, SesionSerializer, UsuarioRegistroSerializer, DocenteSerializer, DocenteRegistroSerializer, MatriculaSerializer, CursoSerializer, AsistenciaSerializer
+from .models import Curso, Asistencia
+from .models import Asesoria
+from .serializers import AsesoriaSerializer
+
 
 @api_view(['POST'])
 def registro_usuario(request):
@@ -157,23 +161,39 @@ def docente_profile(request, docente_id):
 
 
 # Cursos
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
+from .models import Matricula, Curso
+from .serializers import CursoSerializer
+
 @api_view(['GET'])
 def cursos_usuario(request, user_id):
     """
-    Obtiene todos los cursos en los que el usuario con `user_id` tiene matrículas.
+    Obtiene todos los cursos en los que el usuario está matriculado.
     """
-    # Filtrar las matrículas por el usuario especificado
-    matriculas = Matricula.objects.filter(usuario_id=user_id).select_related('sesion__curso')
-    
-    # Obtener los cursos únicos de esas matrículas
-    cursos = {matricula.sesion.curso for matricula in matriculas}
-    
-    if not cursos:
-        return Response({'error': 'El usuario no tiene matrículas en ningún curso'}, status=status.HTTP_404_NOT_FOUND)
-    
-    # Serializar los cursos
-    serializer = CursoSerializer(cursos, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    try:
+        # Obtener las matrículas del usuario
+        matriculas = Matricula.objects.filter(usuario_id=user_id).select_related('curso')
+        
+        if not matriculas.exists():
+            return Response({'error': 'El usuario no tiene matrículas en ningún curso'}, status=status.HTTP_404_NOT_FOUND)
+        
+        # Obtener los cursos únicos de esas matrículas
+        cursos = [matricula.curso for matricula in matriculas]
+        
+        # Serializar los cursos
+        cursos_data = []
+        for curso in cursos:
+            curso_data = CursoSerializer(curso).data
+            # Agregar el campo `registrado`
+            curso_data['registrado'] = True
+            cursos_data.append(curso_data)
+        
+        return Response(cursos_data, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 #  Sesiones
 
@@ -268,22 +288,14 @@ def eliminar_sesion(request, sesion_id):
 @api_view(['POST'])
 def crear_matricula(request):
     """
-    {
-        "usuario": 1,
-        "sesion": 2
-    }
+    Crear una matrícula para un usuario y curso.
     """
     usuario_id = request.data.get('usuario')
-    sesion_id = request.data.get('sesion')
+    curso_id = request.data.get('curso')
 
-    # Verificar si ya existe una matrícula para el mismo usuario y sesión
-    if Matricula.objects.filter(usuario_id=usuario_id, sesion_id=sesion_id).exists():
-        return Response(
-            {'error': 'El usuario ya está registrado en esta sesión.'},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+    if Matricula.objects.filter(usuario_id=usuario_id, curso_id=curso_id).exists():
+        return Response({'error': 'El usuario ya está registrado en este curso.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Si no existe la matrícula, procedemos a crearla
     serializer = MatriculaSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -316,3 +328,197 @@ def eliminar_matricula(request, matricula_id):
         return Response({'message': 'Matrícula eliminada con éxito'}, status=status.HTTP_204_NO_CONTENT)
     except Matricula.DoesNotExist:
         return Response({'error': 'Matrícula no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+    
+def listar_cursos(request):
+    cursos = Curso.objects.all()
+    data = [
+        {
+            "id": c.id,
+            "title": c.title,
+            "descripcion": c.descripcion,
+            "fecha_inicio": c.fecha_inicio.strftime("%Y-%m-%d") if c.fecha_inicio else None,
+            "fecha_fin": c.fecha_fin.strftime("%Y-%m-%d") if c.fecha_fin else None,
+            "docente": c.docente.nombres if c.docente else "Sin docente",
+        }
+        for c in cursos
+    ]
+    return JsonResponse(data, safe=False)
+
+@api_view(['GET'])
+def asistencia_usuario(request, user_id, curso_id=None):
+    """
+    Obtiene las asistencias de un usuario.
+    Si se proporciona `curso_id`, filtra por el curso específico.
+    """
+    try:
+        # Filtro dinámico
+        filtro = {'usuario_id': user_id}
+        if curso_id:
+            filtro['sesion__curso_id'] = curso_id
+
+        asistencias = Asistencia.objects.filter(**filtro).select_related('sesion', 'sesion__curso', 'usuario')
+        print(f"Filtro aplicado: {filtro}")  # Mensaje de depuración
+        print(f"Registros encontrados: {asistencias.count()}")  # Cuántos registros se encontraron
+
+        if not asistencias.exists():
+            return Response(
+                {'message': 'No se encontraron registros de asistencia para este usuario.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        asistencia_data = [
+            {
+                'curso': asistencia.sesion.curso.title,
+                'sesion_fecha': asistencia.sesion.fecha.strftime('%Y-%m-%d %H:%M'),
+                'usuario': asistencia.usuario.nombres,
+                'presente': asistencia.presente,
+                'fecha_registro': asistencia.fecha.strftime('%Y-%m-%d'),
+            }
+            for asistencia in asistencias
+        ]
+        return Response(asistencia_data, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        print(f"Error: {str(e)}")  # Mensaje de depuración
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    
+@api_view(['POST'])
+def registrar_asistencia(request):
+    usuario_id = request.data.get('usuario_id')
+    sesion_id = request.data.get('sesion_id')
+    presente = request.data.get('presente', False)
+
+    try:
+        usuario = Usuario.objects.get(id=usuario_id)
+        sesion = Sesion.objects.get(id=sesion_id)
+
+        # Crear o actualizar un registro de asistencia
+        asistencia, created = Asistencia.objects.update_or_create(
+            usuario=usuario,
+            sesion=sesion,
+            defaults={'presente': presente, 'fecha': sesion.fecha.date()}
+        )
+        message = 'Asistencia registrada correctamente' if created else 'Asistencia actualizada correctamente'
+        return Response({'message': message}, status=status.HTTP_200_OK)
+    except Usuario.DoesNotExist:
+        return Response({'error': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+    except Sesion.DoesNotExist:
+        return Response({'error': 'Sesión no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def obtener_asesorias(request, curso_id):
+    asesorias = Asesoria.objects.filter(curso_id=curso_id)
+    serializer = AsesoriaSerializer(asesorias, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def obtener_sesiones_curso(request, curso_id):
+    try:
+        sesiones = Sesion.objects.filter(curso_id=curso_id)
+        serializer = SesionSerializer(sesiones, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Sesion.DoesNotExist:
+        return Response({"error": "No se encontraron sesiones para este curso."}, status=status.HTTP_404_NOT_FOUND)
+
+from .models import Sugerencia
+from .serializers import SugerenciaSerializer
+
+@api_view(['POST'])
+def crear_sugerencia(request):
+    serializer = SugerenciaSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    print("Errores del serializer:", serializer.errors)  # Imprime los errores en la consola del servidor
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def listar_sugerencias_curso(request, curso_id):
+    """
+    Listar todas las sugerencias de un curso.
+    """
+    sugerencias = Sugerencia.objects.filter(curso_id=curso_id)
+    serializer = SugerenciaSerializer(sugerencias, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+from .models import Encuesta
+from .serializers import EncuestaSerializer
+
+@api_view(['POST'])
+def crear_encuesta(request):
+    serializer = EncuestaSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def listar_usuarios_curso(request, curso_id):
+    """
+    Lista los usuarios inscritos en un curso.
+    """
+    try:
+        matriculas = Matricula.objects.filter(curso_id=curso_id).select_related('usuario')
+        if not matriculas.exists():
+            return Response({'error': 'No hay usuarios inscritos en este curso'}, status=status.HTTP_404_NOT_FOUND)
+        
+        usuarios = [matricula.usuario for matricula in matriculas]
+        serializer = UsuarioSerializer(usuarios, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+from .models import Documento
+
+def listar_documentos(request, curso_id):
+    documentos = Documento.objects.filter(curso_id=curso_id)  # Filtrar los documentos por curso_id
+    documentos_data = [{"titulo": doc.titulo, "archivo": doc.archivo.url} for doc in documentos]  # Obtener los datos de los documentos
+
+    return JsonResponse(documentos_data, safe=False)
+
+from rest_framework.views import APIView 
+from .models import Actividad
+from .serializers import ActividadSerializer
+class ActividadView(APIView):
+    def get(self, request, curso_id):
+        try:
+            actividades = Actividad.objects.filter(curso_id=curso_id)
+            serializer = ActividadSerializer(actividades, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+from .models import Mensaje
+from .serializers import MensajeSerializer
+
+@api_view(['GET'])
+def listar_mensajes_curso(request, curso_id):
+    mensajes = Mensaje.objects.filter(curso_id=curso_id).select_related('curso')
+    serializer = MensajeSerializer(mensajes, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def crear_mensaje(request):
+    """
+    Crea un nuevo mensaje.
+    """
+    serializer = MensajeSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def obtener_curso(request, curso_id):
+    """
+    Obtener detalles de un curso específico.
+    """
+    try:
+        curso = Curso.objects.get(id=curso_id)
+        serializer = CursoSerializer(curso)
+        return Response(serializer.data)
+    except Curso.DoesNotExist:
+        return Response({"error": "Curso no encontrado"}, status=404)
