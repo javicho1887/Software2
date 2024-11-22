@@ -1,0 +1,79 @@
+from rest_framework import serializers
+from .models import Usuario, Docente, Matricula, Sesion, Curso, Asistencia,Asesoria
+from .models import Sugerencia, Encuesta, Mensaje 
+
+
+class UsuarioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuario
+        fields = ['nombres', 'apellidos', 'dni', 'dia', 'mes', 'ano', 'correo', 'telefono']
+
+class UsuarioRegistroSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuario
+        fields = ['nombres', 'apellidos', 'dni', 'dia', 'mes', 'ano', 'correo', 'telefono', 'contrasena']
+        extra_kwargs = {'contrasena': {'write_only': True}}
+
+class DocenteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Docente
+        fields = ['nombres', 'apellidos', 'dni', 'dia', 'mes', 'anio', 'correo', 'telefono']
+
+class DocenteRegistroSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Docente
+        fields = ['nombres', 'apellidos', 'dni', 'dia', 'mes', 'anio', 'correo', 'telefono', 'contraseña']
+        extra_kwargs = {'contrasena': {'write_only': True}}
+
+class CursoSerializer(serializers.ModelSerializer):
+    docente = DocenteSerializer()  # Añadido para incluir el docente en el serializer
+    class Meta:
+        model = Curso
+        fields = '__all__'
+
+class SesionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sesion
+        fields = '__all__'
+
+class MatriculaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Matricula
+        fields = '__all__'
+
+class AsistenciaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Asistencia
+        fields = '__all__'
+
+
+
+class AsesoriaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Asesoria
+        fields = ['id', 'fecha', 'curso']
+
+class SugerenciaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sugerencia
+        fields = ['id', 'curso', 'detalle', 'fecha_creacion']
+
+class EncuestaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Encuesta
+        fields = ['curso', 'pregunta1', 'pregunta2', 'pregunta3']
+
+
+from .models import Actividad
+
+class ActividadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Actividad
+        fields = ['id', 'curso', 'nombre', 'descripcion', 'fecha_vencimiento']
+
+class MensajeSerializer(serializers.ModelSerializer):
+    curso_nombre = serializers.CharField(source='curso.title', read_only=True)  # Cambiado a 'curso.title'
+
+    class Meta:
+        model = Mensaje
+        fields = ['id', 'usuario', 'curso', 'curso_nombre', 'contenido', 'fecha_envio']
