@@ -1,0 +1,104 @@
+.asistencia-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    overflow-x: hidden;
+  }
+  
+  .asistencia-header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #e0eff5;
+  }
+  
+  .logo {
+    width: 150px;
+  }
+  
+  .nav-bar {
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-button {
+    margin: 0 15px;
+    padding: 10px 20px;
+    background-color: #00bcd4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .nav-button.active {
+    background-color: #26c6da;
+  }
+  
+  .asistencia-main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+  }
+  
+  .asistencia-section {
+    margin-bottom: 40px;
+    width: 100%;
+  }
+  
+  h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .asistencia-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f5f7fa;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .asistencia-table th,
+  .asistencia-table td {
+    text-align: left;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .asistencia-table th {
+    background-color: #00bcd4;
+    color: white;
+  }
+  
+  .asistencia-table tr:hover {
+    background-color: #e0eff5;
+  }
+  
+  .asistencia-footer {
+    width: 100%;
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #e0eff5;
+  }
+  
+  .help-link {
+    color: #00bcd4;
+    text-decoration: none;
+  }
+  
+  .help-link:hover {
+    text-decoration: underline;
+  }
+  

@@ -1,0 +1,136 @@
+.mensajes-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+.mensajes-header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #e0eff5;
+}
+
+.logo {
+  width: 150px;
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+}
+
+.nav-button {
+  margin: 0 15px;
+  padding: 10px 20px;
+  background-color: #00bcd4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.nav-button.active {
+  background-color: #26c6da;
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.mensajes-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.mensajes-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.mensaje-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #f5f7fa;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 700px;
+}
+
+.mensaje-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.mensaje-info {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+.mensaje-info p {
+  margin: 0;
+  color: #333;
+}
+
+.mensaje-info span {
+  color: #666;
+  font-size: 14px;
+}
+
+.mensaje-curso {
+  font-weight: bold;
+}
+
+.mensajes-footer {
+  width: 100%;
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: right;
+  background-color: #e0eff5;
+}
+
+.help-link {
+  color: #00bcd4;
+  text-decoration: none;
+}
+
+.help-link:hover {
+  text-decoration: underline;
+}
+
+.column-mensaje {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}

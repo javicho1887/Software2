@@ -1,0 +1,25 @@
+.boton-editar-container {
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: 20px;
+  }
+  
+  .boton-editar {
+    background-color: #00bfa5;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .boton-editar:hover {
+    background-color: #008f7a;
+  }
+  .nav-button.active {
+    background-color: #00bfa5; 
+    color: white; 
+  }
+  

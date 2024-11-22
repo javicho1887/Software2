@@ -1,0 +1,105 @@
+.curso-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background-color: #eaf7f7;
+  }
+  
+  .curso-header {
+    width: 100%;
+    background-color: #d9edf3;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    height: 60px;
+  }
+  
+  .nav-bar {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .nav-button {
+    padding: 10px 20px;
+    background-color: #00bfa6;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .nav-button:hover {
+    background-color: #00a38a;
+  }
+  
+  .curso-main {
+    width: 80%;
+    max-width: 1200px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .curso-content {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .curso-sidebar {
+    width: 200px;
+  }
+  
+  .curso-sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .curso-sidebar li {
+    margin-bottom: 10px;
+  }
+  
+  .curso-sidebar li a {
+    text-decoration: none;
+    color: #00bfa6;
+    font-weight: bold;
+  }
+  
+  .curso-sidebar li a:hover {
+    color: #008f72;
+  }
+  
+  .curso-announcements {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .announcement-box {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .announcement-box h3 {
+    margin-top: 0;
+    color: #333;
+  }
+  
+  .announcement-box p {
+    color: #555;
+  }
+  

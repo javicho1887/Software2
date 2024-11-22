@@ -1,0 +1,31 @@
+.curso-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+  }
+  
+  .curso-info p {
+    margin: 0;
+  }
+  
+  .curso-acciones {
+    display: flex;
+    align-items: center;
+  }
+  
+  .editar-eliminar-text {
+    color: #00b0ff;
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 5px;
+  }
+  
+  .editar-eliminar-text:hover {
+    color: #007bb5;
+  }
+  
