@@ -34,14 +34,19 @@ import CursoDetalle from "./CursoDetalle"; // Importar el nuevo componente
 import CalificacionesTableau from './CalificacionesTableau';
 import NuevaContraseña from './NuevaContraseña';
 import MiPerfilDocente from './MiPerfilDocente';
-import CambiarContraseñaDocente from './CambiarContraseñaDocente';
+
 import ContactosDocente from './ContactosDocente';
 import CursoDetalleRegistrado from './CursoDetalleRegistrado';
 import Asistencia from "./Asistencia";
 import Sugerencias from './Sugerencias';
 import Encuesta from './Encuesta';
+<<<<<<< HEAD
 import RecuperarContraseñaDocente from './RecuperarContraseñaDocente';
 import NuevaContraseñaDocente from './NuevaContraseñaDocente';
+=======
+import DetalleCursoDocente from './DetalleCursoDocente'; // Importa el componente DetalleCursoDocente
+
+>>>>>>> 165a237a9c76426ce56d62e9fe054266f27673b6
 
 
 
@@ -85,14 +90,20 @@ function App() {
           <Route path="/calificaciones-tableau" element={<CalificacionesTableau />} />
           <Route path="/nueva-contraseña" element={<NuevaContraseña />} />
           <Route path="/mi-perfil-docente" element={<MiPerfilDocente />} />
-          <Route path="/cambiar-contraseña-docente" element={<CambiarContraseñaDocente />} />
+          
           <Route path="/contactos-docente" element={<ContactosDocente />} />
           <Route path="/curso-registrado/:cursoId" element={<CursoDetalleRegistrado />} />
           <Route path="/ver-asistencia/:userId" element={<Asistencia />} />
           <Route path="/sugerencias/curso/:cursoId" element={<Sugerencias />} />
           <Route path="/encuesta/:cursoId" element={<Encuesta />} />
+<<<<<<< HEAD
           <Route path="/recuperar-contraseña-docente" element={<RecuperarContraseñaDocente />} />
           <Route path="/nueva-contraseña-docente" element={<NuevaContraseñaDocente />} />
+=======
+          <Route path="/curso-docente/:cursoId" element={<DetalleCursoDocente />} />
+
+
+>>>>>>> 165a237a9c76426ce56d62e9fe054266f27673b6
         </Routes>
       </div>
     </Router>

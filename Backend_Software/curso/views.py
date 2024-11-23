@@ -503,7 +503,10 @@ def listar_documentos(request, curso_id):
     documentos = Documento.objects.filter(curso_id=curso_id)  # Filtrar los documentos por curso_id
     documentos_data = [{"titulo": doc.titulo, "archivo": doc.archivo.url} for doc in documentos]  # Obtener los datos de los documentos
 
-    return JsonResponse(documentos_data, safe=False)
+    if not documentos:
+        return JsonResponse({"mensaje": "No se encontraron documentos para este curso."}, status=404)
+
+    return JsonResponse(documentos_data, safe=False, status=200)
 
 from rest_framework.views import APIView 
 from .models import Actividad
@@ -550,6 +553,7 @@ def obtener_curso(request, curso_id):
     except Curso.DoesNotExist:
         return Response({"error": "Curso no encontrado"}, status=404)
     
+<<<<<<< HEAD
 def listar_usuario(request):
     usuarios = Usuario.objects.all()
     data = [
@@ -584,3 +588,77 @@ def listar_docente(request):
         for d in docentes
     ]
     return JsonResponse(data, safe=False)
+=======
+
+@api_view(['GET'])
+def verificar_matricula(request):
+    usuario_id = request.query_params.get('usuario')
+    curso_id = request.query_params.get('curso')
+
+    if not usuario_id or not curso_id:
+        return Response({'error': 'Faltan parámetros usuario o curso.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    matricula = Matricula.objects.filter(usuario_id=usuario_id, curso_id=curso_id).first()
+    if matricula:
+        return Response({'matriculado': True}, status=status.HTTP_200_OK)
+
+    return Response({'matriculado': False}, status=status.HTTP_200_OK)
+
+from .models import Curso
+from .serializers import CursoSerializer
+
+@api_view(['GET'])
+def cursos_por_docente(request, docente_id):
+    cursos = Curso.objects.filter(docente_id=docente_id)
+    if cursos.exists():
+        serializer = CursoSerializer(cursos, many=True)
+        return Response(serializer.data, status=200)
+    return Response({'error': 'No se encontraron cursos para este docente.'}, status=404)
+
+
+from .models import Documento
+from .serializers import DocumentoSerializer
+from rest_framework.parsers import MultiPartParser, FormParser
+class DocumentoUploadView(APIView):
+    parser_classes = [MultiPartParser, FormParser]
+
+    def post(self, request, curso_id):
+        data = request.data
+        data['curso'] = curso_id  # Asociar el documento al curso
+        serializer = DocumentoSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+from .serializers import ActividadSerializer, EvidenciaSerializer
+
+@api_view(['POST'])
+def crear_actividad(request):
+    serializer = ActividadSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+def actualizar_actividad(request, actividad_id):
+    try:
+        actividad = Actividad.objects.get(id=actividad_id)
+        serializer = ActividadSerializer(actividad, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Actividad.DoesNotExist:
+        return Response({'error': 'Actividad no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+    
+@api_view(['POST'])
+def crear_evidencia(request):
+    serializer = EvidenciaSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+>>>>>>> 165a237a9c76426ce56d62e9fe054266f27673b6

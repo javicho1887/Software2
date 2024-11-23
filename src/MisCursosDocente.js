@@ -1,63 +1,74 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './MisCursosDocente.css';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function MisCursosDocente() {
-  return (
-    <div className="mis-cursos-docente-container">
-      <header className="mis-cursos-docente-header">
-        <img src="/logo.png" alt="NextLevel Logo" className="logo" />
-        <nav className="nav-bar">
-          <Link to="/mis-cursos-docente" className="nav-button">Mis Cursos</Link>
-          <Link to="/mensajes-curso-docente" className="nav-button">Mensajes</Link>
-          <Link to="/mi-perfil-docente">
-            <img src="/user-avatar.png" alt="User Avatar" className="user-avatar" />
-          </Link>
-        </nav>
-      </header>
+    const [cursos, setCursos] = useState([]);
+    const [error, setError] = useState(null);
 
-      <main className="mis-cursos-docente-main">
-        <h2>Mis Cursos</h2>
-        <input type="text" placeholder="Buscar curso..." className="buscar-curso-input" />
+    useEffect(() => {
+        const docenteId = localStorage.getItem('docente_id');
 
-        <div className="cursos-lista">
-          {/* Curso Python */}
-          <Link to="/anuncios-curso-docente" className="curso-card">
-            <img src="/python-icon.png" alt="Python" className="curso-icon" />
-            <div className="curso-info">
-              <h3>Curso: Python</h3>
-              <p>Sección: 745</p>
-              <p>Horario: 16:00 - 18:00</p>
-            </div>
-          </Link>
+        if (!docenteId) {
+            setError("No se encontró el ID de docente. Por favor, inicie sesión nuevamente.");
+            return;
+        }
 
-          {/* Curso Figma */}
-          <Link to="/anuncios-curso-docente" className="curso-card">
-            <img src="/figma-icon.png" alt="Figma" className="curso-icon" />
-            <div className="curso-info">
-              <h3>Curso: Figma</h3>
-              <p>Sección: 876</p>
-              <p>Horario: 14:00 - 15:00</p>
-            </div>
-          </Link>
+        axios
+            .get(`http://localhost:8000/api/cursos/docente/${docenteId}/`)
+            .then((response) => {
+                setCursos(response.data);
+            })
+            .catch((error) => {
+                setError("No se pudieron obtener los cursos. Inténtelo más tarde.");
+            });
+    }, []);
 
-          {/* Curso Java */}
-          <Link to="/anuncios-curso-docente" className="curso-card">
-            <img src="/java-icon.png" alt="Java" className="curso-icon" />
-            <div className="curso-info">
-              <h3>Curso: Java</h3>
-              <p>Sección: 745</p>
-              <p>Horario: 20:00 - 22:00</p>
-            </div>
-          </Link>
+    if (error) {
+        return <div>{error}</div>;
+    }
+
+    return (
+        <div className="mis-cursos-docente-container">
+            <header className="mis-cursos-docente-header">
+                <img src="/logo.png" alt="NextLevel Logo" className="logo" />
+                <nav className="nav-bar">
+                    <Link to="/mis-cursos-docente" className="nav-button">Mis Cursos</Link>
+                    <Link to="/mensajes-curso-docente" className="nav-button">Mensajes</Link>
+                    <Link to="/mi-perfil-docente">
+                        <img src="/user-avatar.png" alt="User Avatar" className="user-avatar" />
+                    </Link>
+                </nav>
+            </header>
+
+            <main className="mis-cursos-docente-main">
+                <h2>Mis Cursos</h2>
+                <input type="text" placeholder="Buscar curso..." className="buscar-curso-input" />
+
+                <div className="cursos-lista">
+                    {cursos.length > 0 ? (
+                        cursos.map((curso) => (
+                            <Link to={`/curso-docente/${curso.id}`} className="curso-card" key={curso.id}>
+                                <div className="curso-info">
+                                    <h3>Curso: {curso.title}</h3>
+                                    <p>Descripción: {curso.descripcion}</p>
+                                    <p>Fecha Inicio: {curso.fecha_inicio}</p>
+                                    <p>Fecha Fin: {curso.fecha_fin}</p>
+                                </div>
+                            </Link>
+                        ))
+                    ) : (
+                        <p>No tienes cursos asignados en este momento.</p>
+                    )}
+                </div>
+            </main>
+
+            <footer className="mis-cursos-docente-footer">
+                <a href="/help" className="help-link">¿Necesita ayuda?</a>
+            </footer>
         </div>
-      </main>
-
-      <footer className="mis-cursos-docente-footer">
-        <a href="/help" className="help-link">¿Necesita ayuda?</a>
-      </footer>
-    </div>
-  );
+    );
 }
 
 export default MisCursosDocente;

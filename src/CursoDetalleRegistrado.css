@@ -224,3 +224,34 @@
 .modal-content button:hover {
   background-color: #0056b3;
 }
+
+.nav-bar-right {
+  display: flex; /* Cambiar la disposición a fila */
+  flex-direction: row; /* Asegurarse de que los elementos estén en línea */
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  gap: 15px; /* Espacio entre los botones */
+  align-items: center; /* Centrar verticalmente los elementos */
+}
+
+.nav-bar-right .nav-button {
+  padding: 10px 20px;
+  background-color: #00bcd4;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.nav-bar-right .nav-button:hover {
+  background-color: #008ba3;
+}
+
+.nav-bar-right img.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
