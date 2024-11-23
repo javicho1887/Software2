@@ -7,13 +7,29 @@ function PaginaInicioAdmin() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (username === 'admin' && password === '123') {
-      navigate('/explorar-cursos-admin'); 
-    } else {
-      alert('Usuario o contraseña incorrecta');
+
+    try {
+      const response = await fetch("http://localhost:8000/api/login-admin/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Usuario o contraseña incorrectos");
+      }
+
+      const data = await response.json();
+      console.log("Login exitoso:", data);
+      localStorage.setItem("admin_id", data.Admin_id); // Guarda el Admin_id en localStorage
+      navigate("/explorar-cursos-admin"); // Redirige al dashboard del administrador
+    } catch (error) {
+      console.error("Error en el login:", error);
+      alert("Usuario o contraseña incorrectos");
     }
   };
 
@@ -26,7 +42,7 @@ function PaginaInicioAdmin() {
       <main className="login-docente-main">
         <div className="login-docente-box">
           <h2>Bienvenido Admin</h2>
-          <br/>
+          <br />
           <form className="login-form" onSubmit={handleSubmit}>
             <label htmlFor="username">Usuario</label>
             <input

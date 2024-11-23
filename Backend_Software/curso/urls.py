@@ -21,6 +21,10 @@ from .views import listar_docente
 from .views import DocumentoUploadView, listar_documentos
 from .views import actualizar_metodo_pago  # Importar la nueva función
 from .views import actualizar_perfil  # Importa la vista
+from .views import actualizar_usuario
+from .views import actualizar_docente
+from .views import loginAdmin
+
 
 
 
@@ -34,6 +38,10 @@ urlpatterns = [
     path('validar-correo/', validar_correo, name='validar_correo'),
     path('cambiar-contraseña/', cambiar_contraseña, name='cambiar_contraseña'),
     path('actualizar-metodo-pago/<int:user_id>/', actualizar_metodo_pago, name='actualizar_metodo_pago'),
+    path('usuarios/actualizar-usuario/',actualizar_usuario, name='actualizar_usuario'),
+    path('usuarios/<int:id>/', actualizar_usuario, name='actualizar_usuario'),
+    path('docentes/<int:id>/', actualizar_docente, name='actualizar_docente'),
+    path('login-admin/', loginAdmin, name='login-admin'),
     
     
     # Rutas para Docente

@@ -17,6 +17,7 @@ from .models import Asesoria
 from .serializers import AsesoriaSerializer
 
 
+
 @api_view(['POST'])
 def registro_usuario(request):
     if request.method == 'POST':
@@ -692,3 +693,130 @@ def crear_evidencia(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+def actualizar_usuario(request, pk):
+    try:
+        usuario = Usuario.objects.get(pk=pk)  # Busca al usuario por su ID
+    except Usuario.DoesNotExist:
+        return Response({'error': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+    # Actualiza los datos del usuario
+    serializer = UsuarioSerializer(usuario, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+def actualizar_usuario_por_id(request, id):
+    if request.method == 'PATCH':
+        try:
+            usuario = Usuario.objects.get(pk=id)
+            data = json.loads(request.body)
+
+            usuario.nombres = data.get('nombres', usuario.nombres)
+            usuario.apellidos = data.get('apellidos', usuario.apellidos)
+            usuario.save()
+
+            return JsonResponse({'message': 'Usuario actualizado correctamente'}, status=200)
+        except Usuario.DoesNotExist:
+            return JsonResponse({'error': 'Usuario no encontrado'}, status=404)
+    return JsonResponse({'error': 'Método no permitido'}, status=405)
+from django.views.decorators.csrf import csrf_exempt
+import json
+@csrf_exempt
+def actualizar_usuario(request, id):
+    if request.method == 'PATCH':  # Permite actualización parcial
+        try:
+            usuario = Usuario.objects.get(pk=id)  # Busca el usuario por ID
+            data = json.loads(request.body)
+
+            # Actualiza los campos solo si están presentes en el request
+            usuario.nombres = data.get('nombres', usuario.nombres)
+            usuario.apellidos = data.get('apellidos', usuario.apellidos)
+            usuario.save()
+
+            return JsonResponse({
+                'id': usuario.id,
+                'nombres': usuario.nombres,
+                'apellidos': usuario.apellidos
+            }, status=200)
+        except Usuario.DoesNotExist:
+            return JsonResponse({'error': 'Usuario no encontrado'}, status=404)
+    return JsonResponse({'error': 'Método no permitido'}, status=405)
+@csrf_exempt
+def actualizar_usuario(request, id):
+    if request.method == 'PATCH':
+        try:
+            usuario = Usuario.objects.get(pk=id)
+            data = json.loads(request.body)
+            usuario.nombres = data.get('nombres', usuario.nombres)
+            usuario.apellidos = data.get('apellidos', usuario.apellidos)
+            usuario.save()
+
+            return JsonResponse({
+                'id': usuario.id,
+                'nombres': usuario.nombres,
+                'apellidos': usuario.apellidos,
+            }, status=200)
+        except Usuario.DoesNotExist:
+            return JsonResponse({'error': 'Usuario no encontrado'}, status=404)
+    return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+@csrf_exempt
+def actualizar_docente(request, id):
+    if request.method == 'PATCH':
+        try:
+            docente = Docente.objects.get(pk=id)
+            data = json.loads(request.body)
+            docente.nombres = data.get('nombres', docente.nombres)
+            docente.apellidos = data.get('apellidos', docente.apellidos)
+            docente.save()
+
+            return JsonResponse({
+                'id': docente.id,
+                'nombres': docente.nombres,
+                'apellidos': docente.apellidos,
+            }, status=200)
+        except Docente.DoesNotExist:
+            return JsonResponse({'error': 'Docente no encontrado'}, status=404)
+    return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+from django.contrib.auth.hashers import check_password
+from rest_framework.decorators import api_view
+from .models import Admin
+
+@api_view(['POST'])
+def loginAdmin(request):
+    # Obtener datos del cuerpo de la solicitud
+    correo = request.data.get('username')  # Campo del formulario
+    password = request.data.get('password')  # Campo del formulario
+
+    try:
+        # Buscar el administrador por correo
+        admin = Admin.objects.get(correo=correo)
+
+        # Verificar la contraseña
+        if admin.contraseña == password:  # Si las contraseñas no están cifradas
+            return JsonResponse(
+                {'message': 'Autenticación exitosa', 'Admin_id': admin.id},
+                status=status.HTTP_200_OK
+            )
+        else:
+            return JsonResponse(
+                {'message': 'Contraseña incorrecta'},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+
+    except Admin.DoesNotExist:
+        # El administrador no existe
+        return JsonResponse(
+            {'message': 'Usuario no encontrado'},
+            status=status.HTTP_401_UNAUTHORIZED
+        )
+    except Exception as e:
+        # Manejar errores inesperados
+        return JsonResponse(
+            {'message': 'Error del servidor', 'error': str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
