@@ -553,7 +553,6 @@ def obtener_curso(request, curso_id):
     except Curso.DoesNotExist:
         return Response({"error": "Curso no encontrado"}, status=404)
     
-<<<<<<< HEAD
 def listar_usuario(request):
     usuarios = Usuario.objects.all()
     data = [
@@ -588,7 +587,6 @@ def listar_docente(request):
         for d in docentes
     ]
     return JsonResponse(data, safe=False)
-=======
 
 @api_view(['GET'])
 def verificar_matricula(request):
@@ -661,4 +659,3 @@ def crear_evidencia(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
->>>>>>> 165a237a9c76426ce56d62e9fe054266f27673b6

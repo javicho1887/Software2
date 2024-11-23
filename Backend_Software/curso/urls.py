@@ -14,15 +14,12 @@ from .views import obtener_sesiones_curso
 from .views import crear_sugerencia, listar_sugerencias_curso
 from .views import crear_encuesta
 from .views import ActividadView
-<<<<<<< HEAD
 from .views import validar_correo_docente
 from .views import actualizar_contraseña_docente
 from .views import listar_usuario
 from .views import listar_docente
-=======
 from .views import DocumentoUploadView, listar_documentos
 
->>>>>>> 165a237a9c76426ce56d62e9fe054266f27673b6
 
 
 

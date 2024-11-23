@@ -40,13 +40,10 @@ import CursoDetalleRegistrado from './CursoDetalleRegistrado';
 import Asistencia from "./Asistencia";
 import Sugerencias from './Sugerencias';
 import Encuesta from './Encuesta';
-<<<<<<< HEAD
 import RecuperarContraseñaDocente from './RecuperarContraseñaDocente';
 import NuevaContraseñaDocente from './NuevaContraseñaDocente';
-=======
 import DetalleCursoDocente from './DetalleCursoDocente'; // Importa el componente DetalleCursoDocente
 
->>>>>>> 165a237a9c76426ce56d62e9fe054266f27673b6
 
 
 
@@ -96,14 +93,11 @@ function App() {
           <Route path="/ver-asistencia/:userId" element={<Asistencia />} />
           <Route path="/sugerencias/curso/:cursoId" element={<Sugerencias />} />
           <Route path="/encuesta/:cursoId" element={<Encuesta />} />
-<<<<<<< HEAD
           <Route path="/recuperar-contraseña-docente" element={<RecuperarContraseñaDocente />} />
           <Route path="/nueva-contraseña-docente" element={<NuevaContraseñaDocente />} />
-=======
           <Route path="/curso-docente/:cursoId" element={<DetalleCursoDocente />} />
 
 
->>>>>>> 165a237a9c76426ce56d62e9fe054266f27673b6
         </Routes>
       </div>
     </Router>
