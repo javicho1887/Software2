@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Usuario, Docente, Matricula, Sesion, Curso, Asistencia,Asesoria
+from .models import Usuario, Docente, Matricula, Sesion, Curso, Asistencia,Asesoria,Admin
 from .models import Sugerencia, Encuesta, Mensaje 
 
 
@@ -90,3 +90,8 @@ class EvidenciaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Evidencia
         fields = ['id', 'curso', 'sesion', 'archivo', 'fecha_subida']
+
+class AdminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Admin
+        fields = ['nombres', 'apellidos', 'contraseña', 'correo', ]

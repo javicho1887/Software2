@@ -19,6 +19,9 @@ from .views import actualizar_contraseña_docente
 from .views import listar_usuario
 from .views import listar_docente
 from .views import DocumentoUploadView, listar_documentos
+from .views import actualizar_usuario
+from .views import actualizar_docente
+from .views import loginAdmin
 
 
 
@@ -30,6 +33,12 @@ urlpatterns = [
     path('actualizar-contraseña/', actualizar_contraseña, name='actualizar_contraseña'),
     path('validar-correo/', validar_correo, name='validar_correo'),
     path('cambiar-contraseña/', cambiar_contraseña, name='cambiar_contraseña'),
+    path('usuarios/actualizar-usuario/',actualizar_usuario, name='actualizar_usuario'),
+    path('usuarios/<int:id>/', actualizar_usuario, name='actualizar_usuario'),
+    path('docentes/<int:id>/', actualizar_docente, name='actualizar_docente'),
+    path('login-admin/', loginAdmin, name='login-admin'),
+    
+
     
     
     # Rutas para Docente

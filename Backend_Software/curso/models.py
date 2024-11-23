@@ -140,3 +140,10 @@ class Evidencia(models.Model):
     def __str__(self):
         return f"Evidencia para {self.sesion.curso.title} - Sesión {self.sesion.id}"
 
+class Admin(models.Model):
+    nombres = models.CharField(max_length=100)
+    apellidos = models.CharField(max_length=100)
+    correo = models.EmailField(unique=True) 
+    contraseña = models.CharField(max_length=15)
+    def __str__(self):
+        return f'{self.nombres} {self.apellidos}'

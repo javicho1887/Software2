@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Usuario, Docente, Curso, Sesion, Matricula, Asistencia, Sugerencia,Encuesta,Documento,Actividad, Mensaje, Evidencia
+from .models import Usuario, Docente, Curso, Sesion, Matricula, Asistencia, Sugerencia,Encuesta,Documento,Actividad, Mensaje, Evidencia,Admin
 
 class CursoAdmin(admin.ModelAdmin):
     exclude = ('usuarios_registrados',)  # Excluir el campo editable
@@ -46,6 +46,7 @@ admin.site.register(Documento)
 admin.site.register(Actividad)
 admin.site.register(Mensaje)
 admin.site.register(Evidencia)
+admin.site.register(Admin)
 
 @admin.register(Encuesta)
 class EncuestaAdmin(admin.ModelAdmin):
