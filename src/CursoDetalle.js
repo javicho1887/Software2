@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./CursoDetalle.css";
+import { Link } from "react-router-dom";
 
 function CursoDetalle() {
   const { cursoId } = useParams();
+  
 
   const [curso, setCurso] = useState({
     id: null,
@@ -20,7 +22,7 @@ function CursoDetalle() {
   const [activoMesSiguiente, setActivoMesSiguiente] = useState(false);
   const [matriculado, setMatriculado] = useState(false); // Estado para verificar si ya está matriculado
 
-  const userId = 1; // Aquí se asume un usuario logueado con ID 1. Ajusta según tu lógica.
+  const userId = localStorage.getItem("user_id");
 
   // Obtener datos del curso desde el backend
   useEffect(() => {
@@ -61,8 +63,30 @@ function CursoDetalle() {
     fetchCurso();
   }, [cursoId]);
 
+  useEffect(() => {
+    const checkMatricula = async () => {
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/matriculas/verificar/?usuario=${userId}&curso=${cursoId}`);
+        console.log("Respuesta del backend sobre matrícula:", response.data);
+  
+        if (response.data.matriculado) {
+          setMatriculado(true); // Usuario ya está matriculado
+        } else {
+          setMatriculado(false); // Asegúrate de limpiar el estado
+        }
+      } catch (err) {
+        console.error("Error al verificar matrícula:", err.response?.data || err.message);
+      }
+    };
+  
+    checkMatricula(); // Verificar si el usuario ya está matriculado
+  }, [cursoId]);
+  
+
   const handleMatricula = async () => {
     try {
+      // Verifica los valores que se están enviando
+    console.log("Datos enviados al backend:", { usuario: userId, curso: cursoId });
       const response = await axios.post("http://127.0.0.1:8000/api/matriculas/crear/", {
         usuario: userId, // ID del usuario autenticado
         curso: cursoId, // ID del curso actual
@@ -82,10 +106,15 @@ function CursoDetalle() {
   return (
     <div className="course-detail-container">
       <header className="course-detail-header">
-        <nav className="nav-bar">
-          <button className="nav-button">Explorar Cursos</button>
-          <button className="nav-button active">Mis Cursos</button>
-          <button className="nav-button">Mensajes</button>
+      <nav className="nav-bar">
+      <Link to="/explorar-cursos" className="nav-button">
+            Explorar Cursos
+          </Link>
+          <Link to="/mis-cursos" className="nav-button">Mis Cursos</Link>
+          <Link to="/mensajes" className="nav-button">Mensajes</Link>
+          <Link to="/mi-perfil">
+            <img src="/user-avatar.png" alt="User Avatar" className="user-avatar" />
+          </Link>
         </nav>
       </header>
 
@@ -110,14 +139,14 @@ function CursoDetalle() {
       </main>
 
       {!matriculado ? (
-          <button className="register-button" onClick={handleMatricula}>
-            Matricularme
-          </button>
-        ) : (
-          <button className="register-button inscrito" disabled>
-            Ya estás matriculado
-          </button>
-        )}
+  <button className="register-button" onClick={handleMatricula}>
+    Matricularme
+  </button>
+) : (
+  <button className="register-button inscrito" disabled>
+    Ya estás matriculado
+  </button>
+)}
 
       <footer className="course-detail-footer">
       

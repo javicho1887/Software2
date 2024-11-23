@@ -130,3 +130,13 @@ class Mensaje(models.Model):
 
     def __str__(self):
      return f"Mensaje de {self.usuario.nombres} en {self.curso.title}"
+    
+class Evidencia(models.Model):
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE, related_name='evidencias')  # Relación con Curso
+    sesion = models.ForeignKey(Sesion, on_delete=models.CASCADE, related_name='evidencias')  # Relación con Sesión
+    archivo = models.ImageField(upload_to='evidencias/')  # Archivo de imagen
+    fecha_subida = models.DateTimeField(auto_now_add=True)  # Fecha de subida
+
+    def __str__(self):
+        return f"Evidencia para {self.sesion.curso.title} - Sesión {self.sesion.id}"
+

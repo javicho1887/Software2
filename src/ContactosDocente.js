@@ -22,7 +22,6 @@ function ContactosDocente() {
           <ul className="perfil-menu">
             <li><a href="/mi-perfil-docente">Mi Perfil</a></li>
             <li><a href="#" className="active">Contactos</a></li>
-            <li><a href="/cambiar-contraseña-docente">Cambiar contraseña</a></li>
             <li><a href="#">Cerrar Sesión</a></li>
           </ul>
         </aside>

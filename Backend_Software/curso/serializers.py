@@ -77,3 +77,16 @@ class MensajeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mensaje
         fields = ['id', 'usuario', 'curso', 'curso_nombre', 'contenido', 'fecha_envio']
+
+
+from .models import Documento,Evidencia
+
+class DocumentoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Documento
+        fields = ['id', 'curso', 'titulo', 'archivo', 'fecha_subida']
+
+class EvidenciaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Evidencia
+        fields = ['id', 'curso', 'sesion', 'archivo', 'fecha_subida']

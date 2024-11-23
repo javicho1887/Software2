@@ -14,6 +14,8 @@ from .views import obtener_sesiones_curso
 from .views import crear_sugerencia, listar_sugerencias_curso
 from .views import crear_encuesta
 from .views import ActividadView
+from .views import DocumentoUploadView, listar_documentos
+
 
 
 
@@ -74,6 +76,21 @@ urlpatterns = [
     path('matriculas/<int:matricula_id>/', views.detalle_matricula, name='detalle_matricula'),
     path('matriculas/<int:matricula_id>/eliminar/', views.eliminar_matricula, name='eliminar_matricula'),
     path('cursos/<int:curso_id>/', views.obtener_curso, name='obtener_curso'),  # Ruta para obtener un curso por ID
+    path('matriculas/verificar/', views.verificar_matricula, name='verificar_matricula'),
+
+
+
+    # Rutas Docente
+    path('cursos/docente/<int:docente_id>/', views.cursos_por_docente, name='cursos_por_docente'),
+    path('cursos/<int:curso_id>/documentos/upload/', DocumentoUploadView.as_view(), name='documentos_upload'),
+
+    path('cursos/<int:curso_id>/documentos/', listar_documentos, name='listar_documentos'),
+    path('actividades/crear/', views.crear_actividad, name='crear_actividad'),
+    path('actividades/<int:actividad_id>/actualizar/', views.actualizar_actividad, name='actualizar_actividad'),
+    path('evidencias/crear/', views.crear_evidencia, name='crear_evidencia'),
+
+
+
 
 
 ]
