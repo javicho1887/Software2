@@ -40,6 +40,8 @@ import CursoDetalleRegistrado from './CursoDetalleRegistrado';
 import Asistencia from "./Asistencia";
 import Sugerencias from './Sugerencias';
 import Encuesta from './Encuesta';
+import RecuperarContraseñaDocente from './RecuperarContraseñaDocente';
+import NuevaContraseñaDocente from './NuevaContraseñaDocente';
 
 
 
@@ -89,7 +91,8 @@ function App() {
           <Route path="/ver-asistencia/:userId" element={<Asistencia />} />
           <Route path="/sugerencias/curso/:cursoId" element={<Sugerencias />} />
           <Route path="/encuesta/:cursoId" element={<Encuesta />} />
-
+          <Route path="/recuperar-contraseña-docente" element={<RecuperarContraseñaDocente />} />
+          <Route path="/nueva-contraseña-docente" element={<NuevaContraseñaDocente />} />
         </Routes>
       </div>
     </Router>

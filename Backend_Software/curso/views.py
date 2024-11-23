@@ -98,6 +98,32 @@ def actualizar_contraseña(request):
         return Response({'message': 'Contraseña actualizada con éxito.'}, status=status.HTTP_200_OK)
     except Usuario.DoesNotExist:
         return Response({'error': 'Usuario no encontrado.'}, status=status.HTTP_404_NOT_FOUND)
+@api_view(['POST'])
+def actualizar_contraseña_docente(request):
+    correo = request.data.get('correo')
+    nueva_contraseña_docente = request.data.get('nueva_contraseña_docente')
+
+    if not correo or not nueva_contraseña_docente:
+        return Response({'error': 'Datos incompletos.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        docente = Docente.objects.get(correo=correo)
+        docente.contraseña = nueva_contraseña_docente
+        docente.save()
+        return Response({'message': 'Contraseña actualizada con éxito.'}, status=status.HTTP_200_OK)
+    except Docente.DoesNotExist:
+        return Response({'error': 'Docente no encontrado.'}, status=status.HTTP_404_NOT_FOUND)
+    
+@api_view(['POST'])
+def validar_correo_docente(request):
+    email = request.data.get('correo').strip()
+    print(f"Correo recibido para validación: '{email}'")  # Asegúrate de ver el correo exacto que se está enviando
+    if email and Docente.objects.filter(correo__iexact=email).exists():  # Búsqueda insensible a mayúsculas
+        print("Correo encontrado en la base de datos.")
+        return Response({'message': 'Correo encontrado'}, status=status.HTTP_200_OK)
+    else:
+        print(f"Correo '{email}' no encontrado en la base de datos.")
+        return Response({'message': 'Correo no encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])
@@ -470,6 +496,7 @@ def listar_usuarios_curso(request, curso_id):
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
 from .models import Documento
 
 def listar_documentos(request, curso_id):
@@ -522,3 +549,38 @@ def obtener_curso(request, curso_id):
         return Response(serializer.data)
     except Curso.DoesNotExist:
         return Response({"error": "Curso no encontrado"}, status=404)
+    
+def listar_usuario(request):
+    usuarios = Usuario.objects.all()
+    data = [
+        {
+            "id": u.id,
+            "nombres": u.nombres,
+            "apellidos": u.apellidos,
+            "dni": u.dni,
+            "correo": u.correo,
+            "dia":u.dia,
+            "mes":u.mes,
+            "ano":u.ano
+
+        }
+        for u in usuarios
+    ]
+    return JsonResponse(data, safe=False)
+def listar_docente(request):
+    docentes = Docente.objects.all()
+    data = [
+        {
+            "id": d.id,
+            "nombres": d.nombres,
+            "apellidos": d.apellidos,
+            "dni": d.dni,
+            "correo": d.correo,
+            "dia":d.dia,
+            "mes":d.mes,
+            "anio":d.anio
+
+        }
+        for d in docentes
+    ]
+    return JsonResponse(data, safe=False)

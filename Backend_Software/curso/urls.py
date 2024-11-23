@@ -14,6 +14,10 @@ from .views import obtener_sesiones_curso
 from .views import crear_sugerencia, listar_sugerencias_curso
 from .views import crear_encuesta
 from .views import ActividadView
+from .views import validar_correo_docente
+from .views import actualizar_contraseña_docente
+from .views import listar_usuario
+from .views import listar_docente
 
 
 
@@ -25,11 +29,13 @@ urlpatterns = [
     path('validar-correo/', validar_correo, name='validar_correo'),
     path('cambiar-contraseña/', cambiar_contraseña, name='cambiar_contraseña'),
     
+    
     # Rutas para Docente
     path('docentes/registro/', registro_docente, name='registro_docente'),
     path('login/docente/', login_docente, name='login_docente'),
     path('docente-profile/<int:docente_id>/', views.docente_profile, name='docente-profile'),
-
+    path('validar-correo-docente/', validar_correo_docente, name='validar_correo_docente'),
+    path('actualizar-contraseña-docente/', actualizar_contraseña_docente, name='actualizar_contraseña_docente'),
     # Rutas para cursos
     path('cursos/usuario/<int:user_id>/', views.cursos_usuario, name='cursos_usuario'),
     path('cursos/', listar_cursos, name='listar_cursos'),
@@ -40,9 +46,10 @@ urlpatterns = [
     path('api/sesiones/curso/<int:curso_id>/', obtener_sesiones_curso, name='obtener_sesiones_curso'),
     path('sugerencias/crear/', crear_sugerencia, name='crear_sugerencia'),
     path('sugerencias/curso/<int:curso_id>/', listar_sugerencias_curso, name='listar_sugerencias_curso'),
-     path('encuestas/', crear_encuesta, name='crear_encuesta'), 
-     path('usuarios/curso/<int:curso_id>/', views.listar_usuarios_curso, name='listar_usuarios_curso'),
-    
+    path('encuestas/', crear_encuesta, name='crear_encuesta'), 
+    path('usuarios/curso/<int:curso_id>/', views.listar_usuarios_curso, name='listar_usuarios_curso'),
+    path('usuarios/', listar_usuario, name='listar_usuario'),
+    path('docentes/', listar_docente, name='listar_docente'),
 
      # Rutas para documentos de los cursos
     path('cursos/<int:curso_id>/documentos/', views.listar_documentos, name='listar_documentos'),  # Ruta para obtener los documentos de un curso específico
