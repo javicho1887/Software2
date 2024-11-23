@@ -58,6 +58,19 @@ def user_profile(request, user_id):
     except Usuario.DoesNotExist:
         return Response({'error': 'Usuario no encontrado'}, status=404)
 
+@api_view(['PUT'])
+def actualizar_perfil(request, user_id):
+    try:
+        usuario = Usuario.objects.get(id=user_id)
+        serializer = UsuarioSerializer(usuario, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Usuario.DoesNotExist:
+        return Response({'error': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+    
+
 @api_view(['POST'])
 def actualizar_contraseña(request):
     email = request.data.get('email')
@@ -369,6 +382,26 @@ def listar_cursos(request):
         for c in cursos
     ]
     return JsonResponse(data, safe=False)
+
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+@api_view(['PUT'])
+def actualizar_metodo_pago(request, user_id):
+    try:
+        usuario = Usuario.objects.get(id=user_id)  # Busca al usuario por ID
+        metodo_pago = request.data.get('metodo_pago')  # Obtén el método de pago del cuerpo de la solicitud
+
+        if metodo_pago not in ['transferencia', 'credito', 'debito']:
+            return Response({'error': 'Método de pago inválido.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        usuario.metodo_pago = metodo_pago  # Actualiza el método de pago
+        usuario.save()
+        return Response({'message': 'Método de pago actualizado correctamente.'}, status=status.HTTP_200_OK)
+    except Usuario.DoesNotExist:
+        return Response({'error': 'Usuario no encontrado.'}, status=status.HTTP_404_NOT_FOUND)
+
+
 
 @api_view(['GET'])
 def asistencia_usuario(request, user_id, curso_id=None):

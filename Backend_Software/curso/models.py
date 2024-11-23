@@ -10,7 +10,16 @@ class Usuario(models.Model):
     correo = models.EmailField(unique=True)
     telefono = models.CharField(max_length=15)
     contrasena = models.CharField(max_length=15)
-
+    metodo_pago = models.CharField(
+        max_length=50, 
+        choices=[
+            ('transferencia', 'Transferencia Bancaria'),
+            ('credito', 'Tarjeta de Crédito'),
+            ('debito', 'Tarjeta de Débito')
+        ],
+        default='transferencia'
+    )  # Nuevo campo para el método de pago
+    
     def __str__(self):
         return f'{self.nombres} {self.apellidos}'
 
