@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -108,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Dirección del frontend React
 ]
-
+CSRF_TRUSTED_ORIGINS = [ 'http://localhost:3000', ]
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
