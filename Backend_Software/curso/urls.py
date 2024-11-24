@@ -21,10 +21,13 @@ from .views import listar_docente
 from .views import DocumentoUploadView, listar_documentos
 from .views import actualizar_metodo_pago  # Importar la nueva función
 from .views import actualizar_perfil  # Importa la vista
+from .views import actualizar_metodo_pago  # Importar la nueva función
+from .views import actualizar_perfil  # Importa la vista
 from .views import actualizar_usuario
 from .views import actualizar_docente
 from .views import loginAdmin
 from .views import actualizar_visibilidad_curso
+
 
 
 
@@ -35,21 +38,21 @@ urlpatterns = [
     path('login/', login_usuario, name='login_usuario'),
     path('user-profile/<int:user_id>/', views.user_profile, name='user-profile'),
     path('user-profile/<int:user_id>/update/', views.actualizar_perfil, name='actualizar_perfil'),
+    path('user-profile/<int:user_id>/update/', views.actualizar_perfil, name='actualizar_perfil'),
     path('actualizar-contraseña/', actualizar_contraseña, name='actualizar_contraseña'),
     path('validar-correo/', validar_correo, name='validar_correo'),
     path('cambiar-contraseña/', cambiar_contraseña, name='cambiar_contraseña'),
+    path('actualizar-metodo-pago/<int:user_id>/', actualizar_metodo_pago, name='actualizar_metodo_pago'),
     path('actualizar-metodo-pago/<int:user_id>/', actualizar_metodo_pago, name='actualizar_metodo_pago'),
     path('usuarios/actualizar-usuario/',actualizar_usuario, name='actualizar_usuario'),
     path('usuarios/<int:id>/', actualizar_usuario, name='actualizar_usuario'),
     path('docentes/<int:id>/', actualizar_docente, name='actualizar_docente'),
     path('login-admin/', loginAdmin, name='login-admin'),
-<<<<<<< HEAD
     path('cursos/<int:curso_id>/visibilidad/', actualizar_visibilidad_curso, name='actualizar_visibilidad_curso'),
     path('sugerencias/<int:sugerencia_id>/visibilidad/', actualizar_visibilidad_sugerencia, name='actualizar_visibilidad_sugerencia'),
     path('encuestas/<int:encuesta_id>/visibilidad/', actualizar_visibilidad_encuesta, name='actualizar_visibilidad_encuesta'),
 
-=======
->>>>>>> 77512f428d5163d4d0772db6f31c364aef0dc798
+
     
     
     # Rutas para Docente

@@ -5,7 +5,7 @@ import './PaginaInicioDocente.css';
 function PaginaInicioDocente() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();  // Para redireccionar entre rutas
+  const navigate = useNavigate(); // Para redireccionar entre rutas
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,7 +39,6 @@ function PaginaInicioDocente() {
         // Mostrar mensaje de error
         alert(result.error || 'Usuario o contraseña incorrecta');
       }
-      
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
       alert('Error al conectar con el servidor.');
@@ -84,6 +83,11 @@ function PaginaInicioDocente() {
               <Link to="/recuperar-contraseña-docente" className="forgot-password-link">Olvidé mi contraseña</Link>
             </div>
           </form>
+
+          {/* Botón para regresar al inicio */}
+          <div className="back-to-home">
+            <a href="/" className="back-button">Regresar al inicio</a>
+          </div>
         </div>
 
         <div className="login-docente-image">

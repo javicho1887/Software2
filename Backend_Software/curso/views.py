@@ -387,8 +387,6 @@ def listar_cursos(request):
     ]
     return JsonResponse(data, safe=False)
 
-<<<<<<< HEAD
-=======
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
@@ -408,7 +406,6 @@ def actualizar_metodo_pago(request, user_id):
         return Response({'error': 'Usuario no encontrado.'}, status=status.HTTP_404_NOT_FOUND)
 
 
->>>>>>> 77512f428d5163d4d0772db6f31c364aef0dc798
 
 @api_view(['GET'])
 def asistencia_usuario(request, user_id, curso_id=None):

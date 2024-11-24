@@ -162,3 +162,5 @@ class Admin(models.Model):
     contraseña = models.CharField(max_length=15)
     def __str__(self):
         return f'{self.nombres} {self.apellidos}'
+
+

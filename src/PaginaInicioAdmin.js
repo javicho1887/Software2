@@ -70,6 +70,11 @@ function PaginaInicioAdmin() {
               <Link to="/recuperar-contraseña-admin" className="forgot-password-link">Olvidé mi contraseña</Link>
             </div>
           </form>
+
+          {/* Botón para regresar al inicio */}
+          <div className="back-to-home">
+            <a href="/" className="back-button">Regresar al inicio</a>
+          </div>
         </div>
 
         <div className="login-docente-image">

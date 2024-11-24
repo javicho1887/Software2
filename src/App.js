@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import ActualizarPerfil from "./ActualizarPerfil";
 import Login from './Login';
 import ExplorarCursos from './ExplorarCursos';
 import MisCursos from './MisCursos';
@@ -36,6 +37,7 @@ import NuevaContraseña from './NuevaContraseña';
 import MiPerfilDocente from './MiPerfilDocente';
 
 import ContactosDocente from './ContactosDocente';
+import MetodoPago from './MetodoPago';
 import CursoDetalleRegistrado from './CursoDetalleRegistrado';
 import Asistencia from "./Asistencia";
 import Sugerencias from './Sugerencias';
@@ -89,6 +91,8 @@ function App() {
           <Route path="/mi-perfil-docente" element={<MiPerfilDocente />} />
           
           <Route path="/contactos-docente" element={<ContactosDocente />} />
+          <Route path="/actualizar-perfil" element={<ActualizarPerfil />} />
+          <Route path="/metodo-pago" element={<MetodoPago />} />
           <Route path="/curso-registrado/:cursoId" element={<CursoDetalleRegistrado />} />
           <Route path="/ver-asistencia/:userId" element={<Asistencia />} />
           <Route path="/sugerencias/curso/:cursoId" element={<Sugerencias />} />

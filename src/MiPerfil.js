@@ -13,6 +13,7 @@ function MiPerfil() {
     ano: "",
     correo: "",
     telefono: "",
+    metodo_pago: "", // Añadido 
   });
   const [error, setError] = useState(null);
 
@@ -82,6 +83,9 @@ function MiPerfil() {
             <li>
               <Link to="/historial-cursos">Historial de cursos</Link>
             </li>
+            <li>
+              <Link to="/metodo-pago">Método de Pago</Link> {/* Aquí agregas esta línea */}
+            </li>
             
             <li>
               <a href="/">Cerrar Sesión</a>
@@ -112,9 +116,27 @@ function MiPerfil() {
               <p>
                 <strong>Teléfono:</strong> {perfil.telefono}
               </p>
+              <p>
+                <strong>Método de Pago:</strong> {perfil.metodo_pago || "No asignado"}
+              </p>{/* Añadido */}
             </div>
+            
+            <div className="perfil-actions">
+            <button className="nav-button">
+              <Link to="/actualizar-perfil" style={{ color: "white", textDecoration: "none" }}>
+                  Actualizar Datos
+              </Link>
+            </button>
+            
+
+            <button className="nav-button">
+              <Link to="/metodo-pago" style={{ color: "white", textDecoration: "none" }}>
+                  Actualizar Método de Pago
+              </Link>  
+            </button>
 
             <button className="nav-button">Actualizar Datos</button>
+            </div>
           </div>
         </section>
       </main>
