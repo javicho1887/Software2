@@ -26,7 +26,7 @@ from .views import actualizar_perfil  # Importa la vista
 from .views import actualizar_usuario
 from .views import actualizar_docente
 from .views import loginAdmin
-from .views import actualizar_visibilidad_curso
+from .views import actualizar_visibilidad_curso, responder_evaluacion
 
 
 
@@ -118,6 +118,10 @@ urlpatterns = [
     path('actividades/crear/', views.crear_actividad, name='crear_actividad'),
     path('actividades/<int:actividad_id>/actualizar/', views.actualizar_actividad, name='actualizar_actividad'),
     path('evidencias/crear/', views.crear_evidencia, name='crear_evidencia'),
+
+    path('responder-evaluacion/<int:curso_id>/', views.responder_evaluacion, name='responder_evaluacion'),
+
+
 
 
 

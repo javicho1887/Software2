@@ -133,21 +133,40 @@ function CursoDetalleRegistrado() {
         </div>
 
         <div className="curso-detalle-grid">
-          <section className="curso-detalle-box">
-            <h2 className="curso-detalle-box-titulo">Evaluaciones</h2>
-            {sesiones.length > 0 ? (
-              <ul className="curso-detalle-lista">
-                {sesiones.map((sesion) => (
-                  <li key={sesion.id} className="curso-detalle-item">
-                    <strong>Sesión:</strong> {sesion.nombre} <br />
-                    <strong>Fecha:</strong> {new Date(sesion.fecha).toLocaleString()}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="curso-detalle-vacio">No hay evaluaciones disponibles.</p>
-            )}
-          </section>
+        <section className="curso-detalle-box" >
+  <h2 className="curso-detalle-box-titulo">Evaluaciones</h2>
+  <div className="curso-detalle-lista">
+    <Link
+      to={`/evaluaciones/${cursoId}/evaluacion1`}
+      className="curso-detalle-enlace"
+      style={{ color: '#000000', backgroundColor: '#f0f0f0', border: '1px solid #000000', padding: '10px', display: 'block', marginBottom: '10px', textDecoration: 'none', borderRadius: '5px' }}
+    >
+      Evaluación 1
+    </Link>
+    <Link
+      to={`/evaluaciones/${cursoId}/evaluacion2`}
+      className="curso-detalle-enlace"
+      style={{ color: '#000000', backgroundColor: '#f0f0f0', border: '1px solid #000000', padding: '10px', display: 'block', marginBottom: '10px', textDecoration: 'none', borderRadius: '5px' }}
+    >
+      Evaluación 2
+    </Link>
+    <Link
+      to={`/evaluaciones/${cursoId}/evaluacion3`}
+      className="curso-detalle-enlace"
+      style={{ color: '#000000', backgroundColor: '#f0f0f0', border: '1px solid #000000', padding: '10px', display: 'block', marginBottom: '10px', textDecoration: 'none', borderRadius: '5px' }}
+    >
+      Evaluación 3
+    </Link>
+    <Link
+      to={`/evaluaciones/${cursoId}/evaluacion4`}
+      className="curso-detalle-enlace"
+      style={{ color: '#000000', backgroundColor: '#f0f0f0', border: '1px solid #000000', padding: '10px', display: 'block', marginBottom: '10px', textDecoration: 'none', borderRadius: '5px' }}
+    >
+      Evaluación 4
+    </Link>
+  </div>
+</section>
+
 
           <section className="curso-detalle-box">
             <h2 className="curso-detalle-box-titulo">Horarios de Sesiones</h2>

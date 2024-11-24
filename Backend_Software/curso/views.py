@@ -11,9 +11,9 @@ from django.http import JsonResponse, HttpResponseNotAllowed
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
 from .models import Usuario, Docente, Matricula, Sesion
-from .serializers import UsuarioSerializer, SesionSerializer, UsuarioRegistroSerializer, DocenteSerializer, DocenteRegistroSerializer, MatriculaSerializer, CursoSerializer, AsistenciaSerializer
+from .serializers import UsuarioSerializer, SesionSerializer, UsuarioRegistroSerializer, DocenteSerializer, DocenteRegistroSerializer, MatriculaSerializer, CursoSerializer, AsistenciaSerializer, RespuestaEvaluacionSerializer
 from .models import Curso, Asistencia
-from .models import Asesoria
+from .models import Asesoria, Evaluacion
 from .serializers import AsesoriaSerializer
 
 
@@ -858,4 +858,21 @@ def actualizar_visibilidad_encuesta(request, encuesta_id):
         return Response({'message': 'Visibilidad de la encuesta actualizada'}, status=status.HTTP_200_OK)
     except Encuesta.DoesNotExist:
         return Response({'error': 'Encuesta no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+    
 
+@api_view(['POST'])
+def responder_evaluacion(request, curso_id):
+    # Obtener el curso desde el curso_id
+    try:
+        curso = Curso.objects.get(id=curso_id)
+    except Curso.DoesNotExist:
+        return Response({"error": "Curso no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+
+    # Usar el serializer para validar las respuestas
+    serializer = RespuestaEvaluacionSerializer(data=request.data)
+    if serializer.is_valid():
+        # Guardar las respuestas en el modelo Evaluacion
+        serializer.save(curso=curso)  # Asignar el curso correspondiente
+        return Response({"message": "Evaluación registrada exitosamente"}, status=status.HTTP_200_OK)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

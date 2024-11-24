@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Usuario, Docente, Matricula, Sesion, Curso, Asistencia,Asesoria,Admin
+from .models import Usuario, Docente, Matricula, Sesion, Curso, Asistencia,Asesoria,Admin, Evaluacion
 from .models import Sugerencia, Encuesta, Mensaje 
 
 
@@ -98,3 +98,15 @@ class AdminSerializer(serializers.ModelSerializer):
         model = Admin
         fields = ['nombres', 'apellidos', 'contraseña', 'correo', ]
         
+
+class RespuestaEvaluacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Evaluacion
+        fields = ['pregunta1', 'pregunta2', 'pregunta3']  # Los campos que deseas que el alumno complete
+
+    # Puedes agregar validaciones adicionales si es necesario
+    def validate(self, data):
+        # Validaciones personalizadas, si es necesario
+        if not data.get('pregunta1') or not data.get('pregunta2') or not data.get('pregunta3'):
+            raise serializers.ValidationError("Todas las preguntas deben ser respondidas.")
+        return data

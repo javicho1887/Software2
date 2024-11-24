@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Usuario, Docente, Curso, Sesion, Matricula, Asistencia, Sugerencia,Encuesta,Documento,Actividad, Mensaje, Evidencia,Admin
+from .models import Usuario, Docente, Curso, Sesion, Matricula, Asistencia, Sugerencia,Encuesta,Documento,Actividad, Mensaje, Evidencia,Admin, Evaluacion 
 
 class CursoAdmin(admin.ModelAdmin):
     exclude = ('usuarios_registrados',)  # Excluir el campo editable
@@ -53,3 +53,9 @@ class EncuestaAdmin(admin.ModelAdmin):
     list_display = ( 'curso', 'fecha_creacion')  # Campos que deseas mostrar
     list_filter = ('curso', 'fecha_creacion')  # Opcional: Filtrar por curso y fecha
     search_fields = ('mensaje',)  # Opcional: Habilitar búsqueda por mensaje
+
+@admin.register(Evaluacion)
+class EvaluacionAdmin(admin.ModelAdmin):
+    list_display = ('curso', 'pregunta1', 'pregunta2', 'pregunta3', 'fecha_creacion', 'visible')
+    search_fields = ('curso__nombre', 'pregunta1', 'pregunta2', 'pregunta3')
+    list_filter = ('fecha_creacion', 'visible')

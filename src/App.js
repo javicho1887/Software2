@@ -45,6 +45,7 @@ import Encuesta from './Encuesta';
 import RecuperarContraseñaDocente from './RecuperarContraseñaDocente';
 import NuevaContraseñaDocente from './NuevaContraseñaDocente';
 import DetalleCursoDocente from './DetalleCursoDocente'; // Importa el componente DetalleCursoDocente
+import Evaluacion from './Evaluacion';
 
 
 
@@ -100,6 +101,12 @@ function App() {
           <Route path="/recuperar-contraseña-docente" element={<RecuperarContraseñaDocente />} />
           <Route path="/nueva-contraseña-docente" element={<NuevaContraseñaDocente />} />
           <Route path="/curso-docente/:cursoId" element={<DetalleCursoDocente />} />
+
+        <Route path="/curso/:cursoId" element={<CursoDetalleRegistrado />} />
+        <Route path="/evaluaciones/:cursoId/evaluacion1" element={<Evaluacion />} />
+        <Route path="/evaluaciones/:cursoId/evaluacion2" element={<Evaluacion />} />
+        <Route path="/evaluaciones/:cursoId/evaluacion3" element={<Evaluacion />} />
+        <Route path="/evaluaciones/:cursoId/evaluacion4" element={<Evaluacion />} />
 
 
         </Routes>

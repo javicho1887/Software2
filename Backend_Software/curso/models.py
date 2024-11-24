@@ -164,3 +164,20 @@ class Admin(models.Model):
         return f'{self.nombres} {self.apellidos}'
 
 
+class RespuestaEvaluacion(models.Model):
+    curso = models.ForeignKey('Curso', on_delete=models.CASCADE)
+    evaluacion = models.ForeignKey('Evaluacion', on_delete=models.CASCADE)
+    pregunta_id = models.CharField(max_length=100)
+    respuesta = models.TextField()
+
+    def __str__(self):
+        return f"Respuesta {self.pregunta_id} para el curso {self.curso} y evaluación {self.evaluacion}"
+    
+class Evaluacion(models.Model):
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE, related_name='evaluaciones')
+    pregunta1 = models.CharField(max_length=255)
+    pregunta2 = models.CharField(max_length=255)
+    pregunta3 = models.CharField(max_length=255)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    visible = models.BooleanField(default=True)
+
