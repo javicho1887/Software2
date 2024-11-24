@@ -10,7 +10,8 @@ function ExplorarCursos() {
   const [editDocenteId, setEditDocenteId] = useState(null); // ID del docente en edición
   const [editedName, setEditedName] = useState(""); // Nombre temporal durante edición
   const [editedLastName, setEditedLastName] = useState(""); // Apellido temporal durante edición
-  const navigate = useNavigate(); // Hook para redirigir
+  const navigate = useNavigate(); 
+  
   
   const handleLogout = () => {
     // Aquí puedes limpiar cualquier estado de sesión, como tokens
@@ -137,6 +138,31 @@ function ExplorarCursos() {
       })
       .catch((error) => console.error("Error al guardar cambios:", error));
   };
+  const actualizarVisibilidadCurso = (cursoId, visible) => {
+    fetch(`http://localhost:8000/api/cursos/${cursoId}/visibilidad/`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ visible }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al actualizar la visibilidad del curso");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data.message);
+        setCursos((prevCursos) =>
+          prevCursos.map((curso) =>
+            curso.id === cursoId ? { ...curso, visible } : curso
+          )
+        );
+      })
+      .catch((error) => console.error(error));
+  };
+  
 
   return (
     <div className="courses-container">
@@ -240,8 +266,14 @@ function ExplorarCursos() {
             <ul className="user-list">
               {cursos.map((curso) => (
                 <li className="user-item" key={curso.id}>
-                  <strong>{curso.title}</strong> 
-                </li>
+                <strong>{curso.title}</strong>
+                <input
+                  type="checkbox"
+                  checked={curso.visible}
+                  onChange={(e) => actualizarVisibilidadCurso(curso.id, e.target.checked)}
+                />
+              </li>
+              
               ))}
             </ul>
           </div>

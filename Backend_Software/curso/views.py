@@ -197,18 +197,21 @@ from .serializers import CursoSerializer
 @api_view(['GET'])
 def cursos_usuario(request, user_id):
     """
-    Obtiene todos los cursos en los que el usuario está matriculado.
+    Obtiene todos los cursos visibles en los que el usuario está matriculado.
     """
     try:
         # Obtener las matrículas del usuario
         matriculas = Matricula.objects.filter(usuario_id=user_id).select_related('curso')
-        
+       
         if not matriculas.exists():
             return Response({'error': 'El usuario no tiene matrículas en ningún curso'}, status=status.HTTP_404_NOT_FOUND)
-        
-        # Obtener los cursos únicos de esas matrículas
-        cursos = [matricula.curso for matricula in matriculas]
-        
+       
+        # Filtrar cursos que son visibles
+        cursos = [matricula.curso for matricula in matriculas if matricula.curso.visible]
+       
+        if not cursos:
+            return Response({'error': 'No hay cursos visibles para este usuario'}, status=status.HTTP_404_NOT_FOUND)
+
         # Serializar los cursos
         cursos_data = []
         for curso in cursos:
@@ -216,7 +219,7 @@ def cursos_usuario(request, user_id):
             # Agregar el campo `registrado`
             curso_data['registrado'] = True
             cursos_data.append(curso_data)
-        
+       
         return Response(cursos_data, status=status.HTTP_200_OK)
 
     except Exception as e:
@@ -357,7 +360,7 @@ def eliminar_matricula(request, matricula_id):
         return Response({'error': 'Matrícula no encontrada'}, status=status.HTTP_404_NOT_FOUND)
     
 def listar_cursos(request):
-    cursos = Curso.objects.all()
+    cursos = Curso.objects.filter(visible=True)  # Filtrar solo los cursos visibles
     data = [
         {
             "id": c.id,
@@ -370,6 +373,7 @@ def listar_cursos(request):
         for c in cursos
     ]
     return JsonResponse(data, safe=False)
+
 
 @api_view(['GET'])
 def asistencia_usuario(request, user_id, curso_id=None):
@@ -787,3 +791,39 @@ def loginAdmin(request):
             {'message': 'Error del servidor', 'error': str(e)},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
+@api_view(['PATCH'])
+def actualizar_visibilidad_curso(request, curso_id):
+    try:
+        curso = Curso.objects.get(id=curso_id)
+        curso.visible = request.data.get('visible', curso.visible)  # Actualiza el estado
+        curso.save()
+        return Response({'message': f'Visibilidad actualizada a {curso.visible}'}, status=status.HTTP_200_OK)
+    except Curso.DoesNotExist:
+        return Response({'error': 'Curso no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+@api_view(['PATCH'])
+def actualizar_visibilidad_sugerencia(request, sugerencia_id):
+    """
+    Actualiza la visibilidad de una sugerencia específica.
+    """
+    try:
+        sugerencia = Sugerencia.objects.get(id=sugerencia_id)
+        sugerencia.visible = request.data.get('visible', sugerencia.visible)
+        sugerencia.save()
+        return Response({'message': 'Visibilidad de la sugerencia actualizada'}, status=status.HTTP_200_OK)
+    except Sugerencia.DoesNotExist:
+        return Response({'error': 'Sugerencia no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['PATCH'])
+def actualizar_visibilidad_encuesta(request, encuesta_id):
+    """
+    Actualiza la visibilidad de una encuesta específica.
+    """
+    try:
+        encuesta = Encuesta.objects.get(id=encuesta_id)
+        encuesta.visible = request.data.get('visible', encuesta.visible)
+        encuesta.save()
+        return Response({'message': 'Visibilidad de la encuesta actualizada'}, status=status.HTTP_200_OK)
+    except Encuesta.DoesNotExist:
+        return Response({'error': 'Encuesta no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+

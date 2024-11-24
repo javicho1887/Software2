@@ -34,11 +34,13 @@ class Curso(models.Model):
     descripcion = models.TextField() 
     fecha_inicio = models.DateField(null=True, blank=True)
     fecha_fin = models.DateField(null=True, blank=True)
-    docente = models.ForeignKey('Docente', on_delete=models.CASCADE, null=True, blank=True)  # Permitir null y blank
-    usuarios_registrados = models.ManyToManyField('Usuario', blank=True)  
+    docente = models.ForeignKey('Docente', on_delete=models.CASCADE, null=True, blank=True)
+    usuarios_registrados = models.ManyToManyField('Usuario', blank=True)
+    visible = models.BooleanField(default=True)  # Nuevo campo para visibilidad
 
     def __str__(self):
         return f'{self.title} ({self.fecha_inicio} - {self.fecha_fin})'
+
     
    
     
@@ -79,22 +81,26 @@ class Asesoria(models.Model):
         return f"Asesoría para {self.curso.title} - {self.fecha}"
     
 class Sugerencia(models.Model):
-    curso = models.ForeignKey(Curso, on_delete=models.CASCADE, related_name='sugerencias')  # Relación con Curso
-    detalle = models.TextField()  # Detalle de la sugerencia
-    fecha_creacion = models.DateTimeField(auto_now_add=True)  # Fecha de creación de la sugerencia
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE, related_name='sugerencias')
+    detalle = models.TextField()
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    visible = models.BooleanField(default=True)  # Controla si la sugerencia es visible
 
     def __str__(self):
         return f"Sugerencia para {self.curso.title}: {self.detalle[:50]}"
+
     
 class Encuesta(models.Model):
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE, related_name='encuestas')
-    pregunta1 = models.IntegerField()  # Puntuación del curso
-    pregunta2 = models.CharField(max_length=10)  # Respuesta "Sí" o "No"
-    pregunta3 = models.TextField()  # Opinión sobre la plataforma
+    pregunta1 = models.IntegerField()
+    pregunta2 = models.CharField(max_length=10)
+    pregunta3 = models.TextField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
+    visible = models.BooleanField(default=True)  # Controla si la encuesta es visible
 
     def __str__(self):
         return f"Encuesta para {self.curso.title}"
+
 
     @property
     def mensaje(self):

@@ -26,10 +26,12 @@ class DocenteRegistroSerializer(serializers.ModelSerializer):
         extra_kwargs = {'contrasena': {'write_only': True}}
 
 class CursoSerializer(serializers.ModelSerializer):
-    docente = DocenteSerializer()  # Añadido para incluir el docente en el serializer
+    docente = DocenteSerializer()  # Si es necesario incluir información del docente
+
     class Meta:
         model = Curso
-        fields = '__all__'
+        fields = '__all__'  # Esto incluirá el campo `visible`
+
 
 class SesionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -56,12 +58,12 @@ class AsesoriaSerializer(serializers.ModelSerializer):
 class SugerenciaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sugerencia
-        fields = ['id', 'curso', 'detalle', 'fecha_creacion']
+        fields = ['id', 'curso', 'detalle', 'fecha_creacion', 'visible']
 
 class EncuestaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Encuesta
-        fields = ['curso', 'pregunta1', 'pregunta2', 'pregunta3']
+        fields = ['id', 'curso', 'pregunta1', 'pregunta2', 'pregunta3', 'fecha_creacion', 'visible']
 
 
 from .models import Actividad
@@ -95,3 +97,4 @@ class AdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = Admin
         fields = ['nombres', 'apellidos', 'contraseña', 'correo', ]
+        

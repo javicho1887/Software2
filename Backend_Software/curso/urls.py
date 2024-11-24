@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import registro_usuario
+from .views import actualizar_visibilidad_encuesta, actualizar_visibilidad_sugerencia, registro_usuario
 from .views import login_usuario
 from . import views
 from .views import actualizar_contraseña
@@ -22,6 +22,7 @@ from .views import DocumentoUploadView, listar_documentos
 from .views import actualizar_usuario
 from .views import actualizar_docente
 from .views import loginAdmin
+from .views import actualizar_visibilidad_curso
 
 
 
@@ -37,7 +38,9 @@ urlpatterns = [
     path('usuarios/<int:id>/', actualizar_usuario, name='actualizar_usuario'),
     path('docentes/<int:id>/', actualizar_docente, name='actualizar_docente'),
     path('login-admin/', loginAdmin, name='login-admin'),
-    
+    path('cursos/<int:curso_id>/visibilidad/', actualizar_visibilidad_curso, name='actualizar_visibilidad_curso'),
+    path('sugerencias/<int:sugerencia_id>/visibilidad/', actualizar_visibilidad_sugerencia, name='actualizar_visibilidad_sugerencia'),
+    path('encuestas/<int:encuesta_id>/visibilidad/', actualizar_visibilidad_encuesta, name='actualizar_visibilidad_encuesta'),
 
     
     

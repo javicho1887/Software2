@@ -108,6 +108,22 @@ function CursoDetalleRegistrado() {
     setSelectedActividad(null);
   };
 
+  const [sugerencias, setSugerencias] = useState([]);
+const [encuestas, setEncuestas] = useState([]);
+
+useEffect(() => {
+  axios.get(`http://127.0.0.1:8000/api/sugerencias/curso/${cursoId}/`)
+    .then((response) => {
+      setSugerencias(response.data.filter((s) => s.visible));
+    });
+
+  axios.get(`http://127.0.0.1:8000/api/encuestas/curso/${cursoId}/`)
+    .then((response) => {
+      setEncuestas(response.data.filter((e) => e.visible));
+    });
+}, [cursoId]);
+
+
 
   return (
     <div className="curso-detalle-container">
