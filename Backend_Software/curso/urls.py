@@ -124,7 +124,6 @@ urlpatterns = [
 
 
 ]
-
 # Creando curso con un docente
 # INSERT INTO curso_curso (title, descripcion, fecha, costo, docente_id)
 # VALUES ('Excel', 'curso sobre excel avanzado', '2024-11-15 09:00:00', 150.50, 4);

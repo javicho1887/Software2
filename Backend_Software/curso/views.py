@@ -478,12 +478,12 @@ def obtener_asesorias(request, curso_id):
 
 @api_view(['GET'])
 def obtener_sesiones_curso(request, curso_id):
-    try:
-        sesiones = Sesion.objects.filter(curso_id=curso_id)
-        serializer = SesionSerializer(sesiones, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    except Sesion.DoesNotExist:
-        return Response({"error": "No se encontraron sesiones para este curso."}, status=status.HTTP_404_NOT_FOUND)
+    sesiones = Sesion.objects.filter(curso_id=curso_id)
+    if not sesiones.exists():
+        return Response({'error': 'No se encontraron sesiones para este curso'}, status=404)
+    serializer = SesionSerializer(sesiones, many=True)
+    return Response(serializer.data, status=200)
+
 
 from .models import Sugerencia
 from .serializers import SugerenciaSerializer
